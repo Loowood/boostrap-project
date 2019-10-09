@@ -1,0 +1,19 @@
+{
+  "name": "boostrap-project",
+  "version": "1.0.0",
+  "description": "It's a bootstrap project for WEB UCLM asdsasasddsada",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loowood/boostrap-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Loowood/boostrap-project/issues"
+  },
+  "homepage": "https://github.com/Loowood/boostrap-project#readme"
+}
