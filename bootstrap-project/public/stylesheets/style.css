@@ -6,3 +6,10 @@ body {
 a {
   color: #00B7FF;
 }
+
+.footer {
+	background-color: gray;
+}
+#footer {
+	background-color: darkgray !important;
+}
