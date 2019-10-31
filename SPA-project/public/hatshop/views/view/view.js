@@ -26,7 +26,7 @@ View.loadPartial = function (filename) {
 $(function () {
     window.addEventListener('popstate', (event) => Controller.
         router.route(), false);
-    var promises = [View.loadPartial('book-partial')];
+    var promises = [View.loadPartial('')];
     Promise.all(promises)
         .then(function () {
 
