@@ -4,7 +4,7 @@ View.loadTemplate = function (filename) {
     return $.ajax({
         url: '/hatshop/views/templates/' + filename + '.hbs'
     });
-}
+};
 View.renderTemplate = function (id, container, context) {
     return View.loadTemplate(id)
         .then(function (source) {
@@ -12,7 +12,7 @@ View.renderTemplate = function (id, container, context) {
             var html = template(context);
             return $('#' + container).html(html)
         })
-}
+};
 
 View.loadPartial = function (filename) {
     return $.ajax({
@@ -21,7 +21,7 @@ View.loadPartial = function (filename) {
         .then(function (contents) {
             return Handlebars.registerPartial(filename, contents);
         });
-}
+};
 
 $(function () {
     window.addEventListener('popstate', (event) => Controller.
@@ -39,4 +39,4 @@ $(function () {
 
         });
 
-})
+});

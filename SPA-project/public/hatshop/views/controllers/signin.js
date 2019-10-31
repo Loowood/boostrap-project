@@ -1,5 +1,5 @@
 Controller.controllers.signin = {};
-Controller.controllers.signing.refresh = function (matching) {
+Controller.controllers.signin.refresh = function (matching) {
 	View.renderer.signin.render({});
 };
 Controller.controllers.signin.goToIndex_clicked = function (event) {
