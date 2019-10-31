@@ -23,9 +23,14 @@ View.loadPartial = function (filename) {
         });
 };
 
-$(function () {
-    window.addEventListener('popstate', (event) => Controller.
-        router.route(), false);
-    Controller.controllers.index.refresh();
 
+$(function () {
+    window.addEventListener('popstate', (event) => Controller.router.route(), false);
+    var promises = [];
+    Promise.all(promises)
+        .then(function () {
+            return $(function () {
+                Controller.router.route();
+            })
+        });
 });
