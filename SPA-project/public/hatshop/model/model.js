@@ -1,50 +1,89 @@
 var Model = {};
-Model.books = [{
-	title: 'The Lord of the Rings' ,
-	author: {
-		name: 'J.R.R.' ,
-		surname: 'Tolkien'
-	},
-	summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel feugiat j usto, eget vestibulum ex.Cras fermentum convallis vulputate.Curabitur tempus, mi sit amet tristique congue, metus dolor aliquam dui, id tempus ante erat sed ante.Sed molestie, est vel sollicitudin bibendum, ex libero efficitur est, in porttitor neque massa pharetra nisi.Duis erat lacus, vestibulum in risus nec, mollis laoreet sem.Nulla vel augue a nisl bibendum ves tibulum ac at nisl.Nulla eget magna tincidunt, lacinia diam vel, tempor neque.Morbi lorem m i, rhoncus vel porta semper, mollis non eros.Etiam vulputate suscipit justo a pellentesque. Cras eu nisl a quam aliquet porttitor.Integer fermentum fringilla urna, eget maximus nunc auctor eu.Phasellus quis felis blandit, tristique purus non, cursus erat.Maecenas sagittis la cus viverra efficitur tristique.' ,
-	comments: []
-}, {
-	title: 'Dracula ' ,
-	author: {
-		name: 'Bram' ,
-		surname: 'Stoker'
-	},
-	summary: 'Aliquam sed dolor mollis, pharetra risus non, hendrerit diam. Morbi eget facilisis metus, non consequat urna. Curabitur pharetra velit nulla, quis tincidunt orci commodo et. Mauris et nibh imperdiet, rhoncus nisl a, euismod est. Vivamus id gravida ante. Aenean dapibus sem odio, in hendrerit felis feugiat in. Sed tincidunt ex ac laoreet vulputate. Nunc in neque lorem. Nam placerat lectus leo, eget suscipit enim ornare at. Suspendisse nec tincidunt diam. Nullam semper interdum urna, et auctor urna fermentum vel. Nam in dapibus quam, scelerisque vestibulum augue.' ,
-	comments: []
-}];
-
-Model.getBooks = function () {
+class User {
+	constructor (name, surname, email, birth, address, password) {
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.birth = birth;
+		this.address = address;
+		this.password = password;
+		this.shoppingCart = null;
+		this.userOrders = [];
+	}
+}
+class ShoppingCart {
+	constructor (){
+		this.subtotal = 0;
+		this.total = 0;
+		this.tax = 0;
+		this.items = [];
+	}
+}
+class Product {
+	constructor (name, description, price, url) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.url = url;
+	}
+}
+class Item {
+	constructor (order, qty, price, total, product) {
+		this.order = order;
+		this.qty = qty;
+		this.price = price;
+		this.total = total;
+		this.product = product;
+	}
+}
+class Order {
+	constructor (number, date, address, subtotal, tax, total, cardHolder, cardNumber, items) {
+		this.number = number;
+		this.date = date;
+		this.address = address;
+		this.subtotal = subtotal;
+		this.tax = tax;
+		this.total = total;
+		this.cardHolder = cardHolder;
+		this.cardNumber = cardNumber;
+		this.orderItems = items;
+	}
+}
+Model.users = [
+	new User("John", "Doe", "example@xyz.com", "08-05-1990", "123 Sesame Street", "azerty123"),
+	new User("H@xor", "TheHacker", "haxor@gmail.com", "01-01-2001", "Antarctica", "youwillneverguess")
+];
+Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
-			resolve(Model.books)
+			resolve(Model.users);
 		}, 1000);
-	});
+	})
 };
-
-Model.addCommentToBook = function (bid, comment) {
-	return Model.getBook(bid)
-		.then(function (book) {
-			return new Promise(function (resolve, reject) {
-				setTimeout(function () {
-					book.comments.push(comment);
-					resolve(book);
-				}, 1000);
-			});
-		})
-};
-Model.getBook = function (id) {
+Model.addUser = function(user) {
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
-			var i = 0;
-			while (i < Model.books.length && Model.books[i].id !== id) i++;
-			if (i < Model.books.length)
-				resolve(Model.books[i]);
-			else
-				reject('Book not found' );
-		}, 1000);
-	});
+			Model.users.push(user);
+			resolve("User added");
+		}, 2000);
+	})
 };
+Model.addItemToShoppingCart = function(usr, item) {
+	var found = false;
+	Model.users.forEach(user => {
+		if (user.name == usr.name && user.surname == usr.surname) {
+			if ( user.shoppingCart == null ){
+				user.shoppingCart = new ShoppingCart();
+			}
+			user.shoppingCart.items.push(item);
+			found = true;
+		}
+	});
+	return new Promise(function (resolve, reject) {
+		if (found){
+			resolve("ok");
+		} else {
+			reject("NO");
+		}
+	})
+}

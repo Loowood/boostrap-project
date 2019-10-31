@@ -26,6 +26,7 @@ View.loadPartial = function (filename) {
 
 $(function () {
     window.addEventListener('popstate', (event) => Controller.router.route(), false);
+    Model.getUsers().then((data) => console.log(data));
     var promises = [];
     Promise.all(promises)
         .then(function () {
