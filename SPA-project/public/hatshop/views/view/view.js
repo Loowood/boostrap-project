@@ -26,17 +26,6 @@ View.loadPartial = function (filename) {
 $(function () {
     window.addEventListener('popstate', (event) => Controller.
         router.route(), false);
-    var promises = [View.loadPartial('')];
-    Promise.all(promises)
-        .then(function () {
-
-
-            Model.getBooks()
-                .then(function (books) {
-                    // Controller.controllers.index.refresh()
-                    Controller.router.route('Page no found!');
-                })
-
-        });
+    Controller.controllers.index.refresh();
 
 });
