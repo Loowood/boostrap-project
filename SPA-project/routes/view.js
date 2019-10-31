@@ -5,7 +5,7 @@ var path = require('path');
 
 /* GET users listing. */
 router.get('/*', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../public/webapp/views/index.html'));
+    res.sendFile(path.join(__dirname, '../public/hatshop/views/index.html'));
 });
 
 module.exports = router;
