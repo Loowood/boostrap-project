@@ -2,7 +2,7 @@ var View = {};
 View.renderer = {};
 View.loadTemplate = function (filename) {
     return $.ajax({
-        url: '/webapp/views/templates/' + filename + '.hbs'
+        url: '/hatshop/views/templates/' + filename + '.hbs'
     });
 }
 View.renderTemplate = function (id, container, context) {
@@ -16,7 +16,7 @@ View.renderTemplate = function (id, container, context) {
 
 View.loadPartial = function (filename) {
     return $.ajax({
-        url: '/webapp/views/partials/' + filename + '.hbs'
+        url: '/hatshop/views/partials/' + filename + '.hbs'
     })
         .then(function (contents) {
             return Handlebars.registerPartial(filename, contents);
