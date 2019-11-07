@@ -12,7 +12,17 @@ class User {
 		User.ids += 1;
 		this.id = User.ids;
 	}
+	Model.getShoppingCart = function() {
+		return new Promise( function (resolve, reject) {
+			setTimeout( function() {
+				resolve(Model.currentUser.shoppingCart);
+			}, 500);
+		})
+	}
 }
+
+Model.currentUser = null;
+
 User.ids = 0;
 class ShoppingCart {
 	constructor() {
@@ -22,15 +32,19 @@ class ShoppingCart {
 		this.items = [];
 	}
 	addItem(product) {
-		for (item of this.items) {
-			if (item.product == product) {
-				item.addOne()
-			}
-		}
-		item = new Item(null, 1, product.price, product)
-		this.items.push(item)
-		this.updateSubTotal()
-		this.updateTotal()
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				for (item of this.items) {
+					if (item.product == product) {
+						item.addOne()
+					}
+				}
+				item = new Item(null, 1, product.price, product)
+				this.items.push(item)
+				this.update()
+				resolve()
+			}, 500)
+		})
 	}
 
 	updateSubTotal() {
@@ -41,12 +55,26 @@ class ShoppingCart {
 	}
 
 	updateTotal() {
-		this.total = this.total + this.tax * this.subtotal
+		this.total = this.total + this.tax
 	}
 
 	removeItem(product) {
-		this.items = array.filter((item, index, arr) => {return item.product !== product})
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				this.items = array.filter((item, index, arr) => {return item.product !== product})
+				this.update()
+				resolve()
+			}, 500)
+		})
+	}
+
+	updateTax() {
+		this.tax = 0.20 * this.subtotal
+	}
+
+	update() {
 		this.updateSubTotal()
+		this.updateTax()
 		this.updateTotal()
 	}
 }
@@ -129,6 +157,7 @@ Model.getProducts = function(){
 	})
 }
 
+
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
@@ -162,4 +191,23 @@ Model.addItemToShoppingCart = function(usr, item) {
 			reject("NO");
 		}
 	})
+}
+
+Model.checkUser = function (usrEmail, usrPassword) {
+	var found = null;
+	for(user of Model.users){
+		if (user.email == usrEmail){
+			if(user.password == usrPassword){
+				found = user;
+				break;
+			}
+		}
+	} 
+	return new Promise(function (resolve,reject){
+		if(found != null){
+			resolve(found);
+		}else{
+			reject();
+		}
+	})	
 }
