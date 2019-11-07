@@ -7,16 +7,44 @@ class User {
 		this.birth = birth;
 		this.address = address;
 		this.password = password;
-		this.shoppingCart = null;
+		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
 	}
 }
 class ShoppingCart {
-	constructor (){
+	constructor() {
 		this.subtotal = 0;
 		this.total = 0;
 		this.tax = 0;
 		this.items = [];
+	}
+	this.addItem(product) {
+		for (item of this.items) {
+			if (item.product == product) {
+				item.addOne()
+			}
+		}
+		item = new Item(null, 1, product.price, product)
+		this.items.push(item)
+		this.updateSubTotal()
+		this.updateTotal()
+	}
+
+	this.updateSubTotal() {
+		this.subtotal = 0
+		for (item of this.items) {
+			this.subtotal = this.subtotal + item.total
+		}
+	}
+
+	this.updateTotal() {
+		this.total = this.total + this.tax * this.subtotal
+	}
+
+	this.removeItem(product) {
+		this.items = array.filter((item, index, arr) => {return item.product !== product})
+		this.updateSubTotal()
+		this.updateTotal()
 	}
 }
 class Product {
@@ -28,12 +56,27 @@ class Product {
 	}
 }
 class Item {
-	constructor (order, qty, price, total, product) {
+	constructor (order, qty, price, product) {
 		this.order = order;
 		this.qty = qty;
 		this.price = price;
-		this.total = total;
+		this.updateTotal()
 		this.product = product;
+	}
+	this.addOne() {
+		this.qty++;
+		this.updateTotal()
+	}
+	this.updateTotal() {
+		this.total = this.qty * this.price
+	}
+	this.removeOne() {
+		this.qty--
+		this.updateTotal()
+	}
+	this.changeQty(qty) {
+		this.qty = qty
+		this.updateTotal()
 	}
 }
 class Order {
