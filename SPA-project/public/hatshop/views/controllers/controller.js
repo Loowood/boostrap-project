@@ -20,6 +20,8 @@ Controller.router.route = function () {
         Controller.controllers.purchase.refresh(); 
     } else if (matching = path.match(/^\/hatshop\/views\/order$/)) {
         Controller.controllers.order.refresh();
+    } else if (matching = path.match(/^\/hatshop\/views\/shoppingcart$/)) {
+        Controller.controllers.shoppingcart.refresh();
     } else {
         console.error('Page not found!');
     }
