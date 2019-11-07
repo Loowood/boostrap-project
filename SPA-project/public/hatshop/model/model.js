@@ -12,6 +12,13 @@ class User {
 		User.ids += 1;
 		this.id = User.ids;
 	}
+	Model.getShoppingCart = function() {
+		return new Promise( function (resolve, reject) {
+			setTimeout( function() {
+				resolve(Model.currentUser.shoppingCart);
+			}, 500);
+		})
+	}
 }
 User.ids = 0;
 class ShoppingCart {
@@ -22,14 +29,19 @@ class ShoppingCart {
 		this.items = [];
 	}
 	addItem(product) {
-		for (item of this.items) {
-			if (item.product == product) {
-				item.addOne()
-			}
-		}
-		item = new Item(null, 1, product.price, product)
-		this.items.push(item)
-		this.update()
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				for (item of this.items) {
+					if (item.product == product) {
+						item.addOne()
+					}
+				}
+				item = new Item(null, 1, product.price, product)
+				this.items.push(item)
+				this.update()
+				resolve()
+			}, 500)
+		})
 	}
 
 	updateSubTotal() {
@@ -44,8 +56,13 @@ class ShoppingCart {
 	}
 
 	removeItem(product) {
-		this.items = array.filter((item, index, arr) => {return item.product !== product})
-		this.update()
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				this.items = array.filter((item, index, arr) => {return item.product !== product})
+				this.update()
+				resolve()
+			}, 500)
+		})
 	}
 
 	updateTax() {
@@ -129,17 +146,6 @@ Model.getProducts = function(){
 	})
 }
 
-Model.getCurrentShoppingCart = function() {
-	return new Promise( function (resolve, reject) {
-		setTimeout( function() {
-			if ( Model.currentUser != null ) {
-				resolve(Model.currentUser.shoppingCart);
-			}else{
-				reject("No current User connected");
-			}
-		}, 500);
-	})
-}
 
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
