@@ -18,7 +18,7 @@ class ShoppingCart {
 		this.tax = 0;
 		this.items = [];
 	}
-	this.addItem(product) {
+	addItem(product) {
 		for (item of this.items) {
 			if (item.product == product) {
 				item.addOne()
@@ -30,18 +30,18 @@ class ShoppingCart {
 		this.updateTotal()
 	}
 
-	this.updateSubTotal() {
+	updateSubTotal() {
 		this.subtotal = 0
 		for (item of this.items) {
 			this.subtotal = this.subtotal + item.total
 		}
 	}
 
-	this.updateTotal() {
+	updateTotal() {
 		this.total = this.total + this.tax * this.subtotal
 	}
 
-	this.removeItem(product) {
+	removeItem(product) {
 		this.items = array.filter((item, index, arr) => {return item.product !== product})
 		this.updateSubTotal()
 		this.updateTotal()
@@ -63,18 +63,18 @@ class Item {
 		this.updateTotal()
 		this.product = product;
 	}
-	this.addOne() {
+	addOne() {
 		this.qty++;
 		this.updateTotal()
 	}
-	this.updateTotal() {
+	updateTotal() {
 		this.total = this.qty * this.price
 	}
-	this.removeOne() {
+	removeOne() {
 		this.qty--
 		this.updateTotal()
 	}
-	this.changeQty(qty) {
+	changeQty(qty) {
 		this.qty = qty
 		this.updateTotal()
 	}
@@ -92,10 +92,28 @@ class Order {
 		this.orderItems = items;
 	}
 }
+
+
+// === Initialisation
+// Users
 Model.users = [
 	new User("John", "Doe", "example@xyz.com", "08-05-1990", "123 Sesame Street", "azerty123"),
 	new User("H@xor", "TheHacker", "haxor@gmail.com", "01-01-2001", "Antarctica", "youwillneverguess")
 ];
+// Products
+Model.products = [
+	new Product("Internet", 10, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In enim ligula, fringilla at scelerisque sit amet, tempus at risus. Sed ac sapien auctor, cursus nunc et, varius sapien. Morbi pretium interdum augue, ac vestibulum diam eleifend in. Curabitur at iaculis turpis. Nulla dapibus elit tincidunt lorem gravida, at laoreet ipsum pretium. Nam pretium elit convallis feugiat convallis.", "images/InternetHat.jpg"),
+	new Product("Australian", 15, "Ut fringilla ex aliquet, sagittis metus et, hendrerit neque. Aenean quam odio, dapibus ac auctor aliquet, porttitor et velit. Pellentesque mollis, purus non hendrerit iaculis, neque quam semper urna, non pellentesque neque purus eget dui.", "images/AussieHat.jpg")
+]
+
+Model.getProducts = function(){
+	return new Promise(function (resolve, reject) {
+		setTimeout( function() {
+			resolve(Model.products);
+		}, 2000);
+	})
+}
+
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {

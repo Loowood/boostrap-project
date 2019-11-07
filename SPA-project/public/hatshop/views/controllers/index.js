@@ -1,6 +1,11 @@
 Controller.controllers.index = {};
 Controller.controllers.index.refresh = function (matching) {
-	View.renderer.index.render({});
+	var context = {};
+	Model.getProducts()
+		.then( function (products) {
+			context.products = products;
+			View.renderer.index.render(context);
+		});
 };
 Controller.controllers.index.goToSignin_clicked = function (event) {
 	event.preventDefault();
