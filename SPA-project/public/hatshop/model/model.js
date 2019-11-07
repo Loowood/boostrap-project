@@ -113,6 +113,14 @@ Model.products = [
 	new Product("Holmes", "Nulla auctor lectus vulputate fermentum commodo. Mauris accumsan eu justo eu maximus. Etiam vitae erat sit amet est egestas tempor. Integer imperdiet luctus diam et pellentesque. Sed pretium quam ex, ac tristique neque porta eu.", 40, "/hatshop/images/HolmesHat.jpg")
 ]
 
+//Order number, date, address, subtotal, tax, total, cardHolder, cardNumber, items
+Model.product = [
+	new Order(1, "02/06/2019", "Fernado Str.", "77,77 $", "10%", "85.15", "Leonel Messi", "**** **** **** *777", "Item1"  ),
+	new Order(2, "01/05/2019", "Pablo Str.", "17,77 $", "5%", "20.15", "Chris Roneal", "**** **** **** *697", "Item2"  ),
+	new Order(3, "04/07/2019", "Lake Str.", "55,77 $", "5%", "59.15", "Jesse Merano", "**** **** **** *258", "Item3"  ),
+	new Order(4, "05/05/2019", "Porto Str.", "67,77 $", "5%", "71.15", "Miguel Farno", "**** **** **** *369", "Item4"  )
+]
+
 Model.getProducts = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout( function() {
