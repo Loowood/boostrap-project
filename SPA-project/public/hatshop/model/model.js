@@ -9,14 +9,13 @@ class User {
 		this.password = password;
 		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
-		User.ids += 1;
-		this.id = User.ids;
+		this.id = Date.now();
 	}
 }
 
 Model.currentUser = null;
 
-User.ids = 0;
+
 class ShoppingCart {
 	constructor() {
 		this.subtotal = 0;
@@ -196,4 +195,28 @@ Model.checkUser = function (usrEmail, usrPassword) {
 			reject();
 		}
 	})	
+}
+
+Model.signUp = function(userInfo){
+	empty = 0;
+	duplicateEmail = false;
+	passwordMatch = false;
+	Object.keys(userInfo).forEach(function(key){
+		if(userInfo[key] == "" || userInfo[key] == null){
+			empty += 1;
+		}
+	})
+	if (Model.users.map(x => x.email).includes(userInfo.email)) {
+		duplicateEmail = true;
+	}
+	if (userInfo.password != userInfo.confirmpassword){
+		passwordMatch = true;
+	}
+	return new Promise(function (resolve,reject){
+		if(empty > 0 || duplicateEmail  || passwordMatch){
+			reject();
+		}else{
+			resolve();
+		}
+	})
 }
