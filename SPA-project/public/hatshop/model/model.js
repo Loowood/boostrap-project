@@ -13,6 +13,9 @@ class User {
 		this.id = User.ids;
 	}
 }
+
+Model.currentUser = null;
+
 User.ids = 0;
 class ShoppingCart {
 	constructor() {
@@ -157,18 +160,18 @@ Model.addItemToShoppingCart = function(usr, item) {
 }
 
 Model.checkUser = function (usrEmail, usrPassword) {
-	var found = false;
+	var found = null;
 	for(user of Model.users){
 		if (user.email == usrEmail){
 			if(user.password == usrPassword){
-				found = true;
+				found = user;
 				break;
 			}
 		}
 	} 
 	return new Promise(function (resolve,reject){
-		if(found){
-			resolve();
+		if(found != null){
+			resolve(found);
 		}else{
 			reject();
 		}

@@ -10,11 +10,14 @@ Controller.controllers.signin.goToIndex_clicked = function (event) {
 
 Controller.controllers.signin.checkUser = function (event) {
 	event.preventDefault();
-	var email =  $('#inputEmail').val();
+	var email = $('#inputEmail').val();
 	var password = $('#inputPassword').val();
-	Model.checkUser(email, password).then(function(){
-		console.log("User found")
-	}).catch(function(){
-		console.log("User not found")
+	Model.checkUser(email, password).then(function (user) {
+		Model.currentUser = user;
+		Controller.router.go("index");
+		View.renderer.index.render({});
+		console.log(Model.currentUser);
+	}).catch(function () {
+		View.renderer.signin.render({});
 	})
 }
