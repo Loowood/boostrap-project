@@ -154,7 +154,6 @@ Model.checkUser = function (usrEmail, usrPassword) {
 	for(user of Model.users){
 		if (user.email == usrEmail){
 			if(user.password == usrPassword){
-				console.log("Email: " + user.email + " and password: " + user.password + " found!");
 				found = true;
 				break;
 			}
@@ -166,10 +165,5 @@ Model.checkUser = function (usrEmail, usrPassword) {
 		}else{
 			reject();
 		}
-	}).then(function(){
-		console.log("User found");
-	}).catch(function(){
-		console.log("User not found")
-		View.renderer.signin.render({})
 	})	
 }

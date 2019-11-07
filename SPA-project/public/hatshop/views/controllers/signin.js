@@ -12,5 +12,9 @@ Controller.controllers.signin.checkUser = function (event) {
 	event.preventDefault();
 	var email =  $('#inputEmail').val();
 	var password = $('#inputPassword').val();
-	Model.checkUser(email, password);
+	Model.checkUser(email, password).then(function(){
+		console.log("User found")
+	}).catch(function(){
+		console.log("User not found")
+	})
 }
