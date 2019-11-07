@@ -20,6 +20,9 @@ class User {
 		})
 	}
 }
+
+Model.currentUser = null;
+
 User.ids = 0;
 class ShoppingCart {
 	constructor() {
@@ -180,4 +183,23 @@ Model.addItemToShoppingCart = function(usr, item) {
 			reject("NO");
 		}
 	})
+}
+
+Model.checkUser = function (usrEmail, usrPassword) {
+	var found = null;
+	for(user of Model.users){
+		if (user.email == usrEmail){
+			if(user.password == usrPassword){
+				found = user;
+				break;
+			}
+		}
+	} 
+	return new Promise(function (resolve,reject){
+		if(found != null){
+			resolve(found);
+		}else{
+			reject();
+		}
+	})	
 }
