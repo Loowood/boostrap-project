@@ -87,3 +87,28 @@ Model.addItemToShoppingCart = function(usr, item) {
 		}
 	})
 }
+
+Model.checkUser = function (usrEmail, usrPassword) {
+	var found = false;
+	for(user of Model.users){
+		if (user.email == usrEmail){
+			if(user.password == usrPassword){
+				console.log("Email: " + user.email + " and password: " + user.password + " found!");
+				found = true;
+				break;
+			}
+		}
+	} 
+	return new Promise(function (resolve,reject){
+		if(found){
+			resolve();
+		}else{
+			reject();
+		}
+	}).then(function(){
+		console.log("User found");
+	}).catch(function(){
+		console.log("User not found")
+		View.renderer.signin.render({})
+	})	
+}
