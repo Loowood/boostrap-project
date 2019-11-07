@@ -16,6 +16,10 @@ Controller.router.route = function () {
         Controller.controllers.index.refresh();
     } else if (matching = path.match(/^\/hatshop\/views\/signin$/)) {
         Controller.controllers.signin.refresh();
+    } else if (matching = path.match(/^\/hatshop\/views\/purchase$/)) {
+        Controller.controllers.purchase.refresh(); 
+    } else if (matching = path.match(/^\/hatshop\/views\/order$/)) {
+        Controller.controllers.order.refresh();
     } else {
         console.error('Page not found!');
     }

@@ -7,16 +7,44 @@ class User {
 		this.birth = birth;
 		this.address = address;
 		this.password = password;
-		this.shoppingCart = null;
+		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
 	}
 }
 class ShoppingCart {
-	constructor (){
+	constructor() {
 		this.subtotal = 0;
 		this.total = 0;
 		this.tax = 0;
 		this.items = [];
+	}
+	addItem(product) {
+		for (item of this.items) {
+			if (item.product == product) {
+				item.addOne()
+			}
+		}
+		item = new Item(null, 1, product.price, product)
+		this.items.push(item)
+		this.updateSubTotal()
+		this.updateTotal()
+	}
+
+	updateSubTotal() {
+		this.subtotal = 0
+		for (item of this.items) {
+			this.subtotal = this.subtotal + item.total
+		}
+	}
+
+	updateTotal() {
+		this.total = this.total + this.tax * this.subtotal
+	}
+
+	removeItem(product) {
+		this.items = array.filter((item, index, arr) => {return item.product !== product})
+		this.updateSubTotal()
+		this.updateTotal()
 	}
 }
 class Product {
@@ -28,12 +56,27 @@ class Product {
 	}
 }
 class Item {
-	constructor (order, qty, price, total, product) {
+	constructor (order, qty, price, product) {
 		this.order = order;
 		this.qty = qty;
 		this.price = price;
-		this.total = total;
+		this.updateTotal()
 		this.product = product;
+	}
+	addOne() {
+		this.qty++;
+		this.updateTotal()
+	}
+	updateTotal() {
+		this.total = this.qty * this.price
+	}
+	removeOne() {
+		this.qty--
+		this.updateTotal()
+	}
+	changeQty(qty) {
+		this.qty = qty
+		this.updateTotal()
 	}
 }
 class Order {
@@ -49,10 +92,28 @@ class Order {
 		this.orderItems = items;
 	}
 }
+
+
+// === Initialisation
+// Users
 Model.users = [
 	new User("John", "Doe", "example@xyz.com", "08-05-1990", "123 Sesame Street", "azerty123"),
 	new User("H@xor", "TheHacker", "haxor@gmail.com", "01-01-2001", "Antarctica", "youwillneverguess")
 ];
+// Products
+Model.products = [
+	new Product("Internet", 10, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In enim ligula, fringilla at scelerisque sit amet, tempus at risus. Sed ac sapien auctor, cursus nunc et, varius sapien. Morbi pretium interdum augue, ac vestibulum diam eleifend in. Curabitur at iaculis turpis. Nulla dapibus elit tincidunt lorem gravida, at laoreet ipsum pretium. Nam pretium elit convallis feugiat convallis.", "images/InternetHat.jpg"),
+	new Product("Australian", 15, "Ut fringilla ex aliquet, sagittis metus et, hendrerit neque. Aenean quam odio, dapibus ac auctor aliquet, porttitor et velit. Pellentesque mollis, purus non hendrerit iaculis, neque quam semper urna, non pellentesque neque purus eget dui.", "images/AussieHat.jpg")
+]
+
+Model.getProducts = function(){
+	return new Promise(function (resolve, reject) {
+		setTimeout( function() {
+			resolve(Model.products);
+		}, 2000);
+	})
+}
+
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {

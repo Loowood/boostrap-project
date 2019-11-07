@@ -32,12 +32,16 @@ $(function () {
                     View.loadPartial('footer-partial'),
                     View.loadPartial('index-partial'),
                     View.loadPartial('signin-partial'),
-                    View.loadPartial('nav-partial')
+                    View.loadPartial('nav-partial'),
+                    View.loadPartial('product-partial'),
+                    View.loadPartial('purchase-partial'),
+                    View.loadPartial('order-partial')
                 ];
     Promise.all(promises)
         .then(function () {
             return $(function () {
                 // Controller.controller.index.refresh();
+
                 Controller.router.route();
             })
         });
