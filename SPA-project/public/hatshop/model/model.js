@@ -26,8 +26,7 @@ class ShoppingCart {
 		}
 		item = new Item(null, 1, product.price, product)
 		this.items.push(item)
-		this.updateSubTotal()
-		this.updateTotal()
+		this.update()
 	}
 
 	updateSubTotal() {
@@ -38,12 +37,21 @@ class ShoppingCart {
 	}
 
 	updateTotal() {
-		this.total = this.total + this.tax * this.subtotal
+		this.total = this.total + this.tax
 	}
 
 	removeItem(product) {
 		this.items = array.filter((item, index, arr) => {return item.product !== product})
+		this.update()
+	}
+
+	updateTax() {
+		this.tax = 0.20 * this.subtotal
+	}
+
+	update() {
 		this.updateSubTotal()
+		this.updateTax()
 		this.updateTotal()
 	}
 }
