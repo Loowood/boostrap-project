@@ -31,7 +31,8 @@ $(function () {
                     View.loadPartial('base'),
                     View.loadPartial('footer-partial'),
                     View.loadPartial('index-partial'),
-                    View.loadPartial('signin-partial')
+                    View.loadPartial('signin-partial'),
+                    View.loadPartial('nav-partial')
                 ];
     Promise.all(promises)
         .then(function () {
