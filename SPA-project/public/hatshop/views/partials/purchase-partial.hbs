@@ -15,7 +15,7 @@
 
                                  <div class="form-group">
                                         
-                                        <input type="text" class="form-control" id="usr" placeholder="Adress"> 
+                                        <input type="text" class="form-control" id="usr" placeholder="{{user.address}}" > 
                                  </div>
 
                                  <div class="form-group">
@@ -48,7 +48,7 @@
                                         <td>1</td>
                                         <td>Product 1</td>
                                         <td>10 </td>
-                                        <td> <a href="order.html"><button type="button" class="btn btn-primary"> Details </button> </a> </td>
+                                        <td> <a href="order" onclick="Controller.controllers.order.goToOrder_clicked(event)"><button type="button" class="btn btn-primary" onclick="Controller.controllers.order.goToOrder_clicked(event)"> Details </button> </a> </td>
                                       </tr>
                                     </tbody>
                                   </table>

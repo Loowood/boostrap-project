@@ -12,13 +12,14 @@ class User {
 		User.ids += 1;
 		this.id = User.ids;
 	}
-	Model.getShoppingCart = function() {
-		return new Promise( function (resolve, reject) {
-			setTimeout( function() {
-				resolve(Model.currentUser.shoppingCart);
-			}, 500);
-		})
-	}
+}
+
+Model.getShoppingCart = function() {
+	return new Promise( function (resolve, reject) {
+		setTimeout( function() {
+			resolve(Model.currentUser.shoppingCart);
+		}, 500);
+	})
 }
 
 Model.currentUser = null;
@@ -142,7 +143,7 @@ Model.products = [
 ]
 
 //Order number, date, address, subtotal, tax, total, cardHolder, cardNumber, items
-Model.product = [
+Model.orders = [
 	new Order(1, "02/06/2019", "Fernado Str.", "77,77 $", "10%", "85.15", "Leonel Messi", "**** **** **** *777", "Item1"  ),
 	new Order(2, "01/05/2019", "Pablo Str.", "17,77 $", "5%", "20.15", "Chris Roneal", "**** **** **** *697", "Item2"  ),
 	new Order(3, "04/07/2019", "Lake Str.", "55,77 $", "5%", "59.15", "Jesse Merano", "**** **** **** *258", "Item3"  ),
