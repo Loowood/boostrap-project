@@ -22,6 +22,8 @@ Controller.router.route = function () {
         Controller.controllers.order.refresh();
     } else if (matching = path.match(/^\/hatshop\/views\/shoppingcart$/)) {
         Controller.controllers.shoppingcart.refresh();
+    } else if (matching = path.match(/^\/hatshop\/views\/signup$/)) {
+        Controller.controllers.signup.refresh();
     } else if (matching = path.match(/^\/hatshop\/views\/profile/)) {
         Controller.controllers.profile.refresh();
     } else {

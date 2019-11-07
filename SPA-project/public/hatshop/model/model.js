@@ -9,14 +9,20 @@ class User {
 		this.password = password;
 		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
-		User.ids += 1;
-		this.id = User.ids;
+		this.id = Date.now();
+	}
+	Model.getShoppingCart = function() {
+		return new Promise( function (resolve, reject) {
+			setTimeout( function() {
+				resolve(Model.currentUser.shoppingCart);
+			}, 500);
+		})
 	}
 }
 
 Model.currentUser = null;
 
-User.ids = 0;
+
 class ShoppingCart {
 	constructor() {
 		this.subtotal = 0;
@@ -25,14 +31,19 @@ class ShoppingCart {
 		this.items = [];
 	}
 	addItem(product) {
-		for (item of this.items) {
-			if (item.product == product) {
-				item.addOne()
-			}
-		}
-		item = new Item(null, 1, product.price, product)
-		this.items.push(item)
-		this.update()
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				for (item of this.items) {
+					if (item.product == product) {
+						item.addOne()
+					}
+				}
+				item = new Item(null, 1, product.price, product)
+				this.items.push(item)
+				this.update()
+				resolve()
+			}, 500)
+		})
 	}
 
 	updateSubTotal() {
@@ -47,8 +58,13 @@ class ShoppingCart {
 	}
 
 	removeItem(product) {
-		this.items = array.filter((item, index, arr) => {return item.product !== product})
-		this.update()
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				this.items = array.filter((item, index, arr) => {return item.product !== product})
+				this.update()
+				resolve()
+			}, 500)
+		})
 	}
 
 	updateTax() {
@@ -132,17 +148,6 @@ Model.getProducts = function(){
 	})
 }
 
-Model.getCurrentShoppingCart = function() {
-	return new Promise( function (resolve, reject) {
-		setTimeout( function() {
-			if ( Model.currentUser != null ) {
-				resolve(Model.currentUser.shoppingCart);
-			}else{
-				reject("No current User connected");
-			}
-		}, 500);
-	})
-}
 
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
@@ -196,4 +201,28 @@ Model.checkUser = function (usrEmail, usrPassword) {
 			reject();
 		}
 	})	
+}
+
+Model.signUp = function(userInfo){
+	empty = 0;
+	duplicateEmail = false;
+	passwordMatch = false;
+	Object.keys(userInfo).forEach(function(key){
+		if(userInfo[key] == "" || userInfo[key] == null){
+			empty += 1;
+		}
+	})
+	if (Model.users.map(x => x.email).includes(userInfo.email)) {
+		duplicateEmail = true;
+	}
+	if (userInfo.password != userInfo.confirmpassword){
+		passwordMatch = true;
+	}
+	return new Promise(function (resolve,reject){
+		if(empty > 0 || duplicateEmail  || passwordMatch){
+			reject();
+		}else{
+			resolve();
+		}
+	})
 }
