@@ -121,6 +121,18 @@ Model.getProducts = function(){
 	})
 }
 
+Model.getCurrentShoppingCart = function() {
+	return new Promise( function (resolve, reject) {
+		setTimeout( function() {
+			if ( Model.currentUser != null ) {
+				resolve(Model.currentUser.shoppingCart);
+			}else{
+				reject("No current User connected");
+			}
+		}, 500);
+	})
+}
+
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
