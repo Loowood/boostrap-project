@@ -1,2 +1,5 @@
-<h1>Sign In</h1>
-<a href="index" onclick="Controller.controllers.signin.goToIndex_clicked(event)">Go to Index</a>
+{{#>base}}
+    {{#*inline "main-block"}}
+        {{> signin-partial}}
+    {{/inline}}
+{{/base}}

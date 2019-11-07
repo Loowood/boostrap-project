@@ -27,10 +27,16 @@ View.loadPartial = function (filename) {
 $(function () {
     window.addEventListener('popstate', (event) => Controller.router.route(), false);
     Model.getUsers().then((data) => console.log(data));
-    var promises = [];
+    var promises = [View.loadPartial('header-partial'),
+                    View.loadPartial('base'),
+                    View.loadPartial('footer-partial'),
+                    View.loadPartial('index-partial'),
+                    View.loadPartial('signin-partial')
+                ];
     Promise.all(promises)
         .then(function () {
             return $(function () {
+                // Controller.controller.index.refresh();
                 Controller.router.route();
             })
         });
