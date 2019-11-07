@@ -9,8 +9,11 @@ class User {
 		this.password = password;
 		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
+		User.ids += 1;
+		this.id = User.ids;
 	}
 }
+User.ids = 0;
 class ShoppingCart {
 	constructor() {
 		this.subtotal = 0;
