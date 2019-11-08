@@ -4,6 +4,7 @@ Controller.controllers.purchase.refresh = function (matching) {
 	if (Model.currentUser != null){
 		contex.userConnected = true;
 		contex.user = Model.currentUser;
+		contex.total = Model.currentUser.getOrdersTotal();
 	}
 	else{
 		contex.userConnected = false;
