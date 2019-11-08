@@ -14,7 +14,12 @@
 
                 <div class="card-body">
                     <h4 class="card-title">Order List</h4>
-                    
+                    User Orders Size = {{user.userOrders.length}}
+                    {{#if user.userOrders.length}}
+                        <h1>No</h1>
+                    {{else}}
+                        <h1>Yes</h1>
+                    {{/if}}
                 </div>
 
 

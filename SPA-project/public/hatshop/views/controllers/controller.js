@@ -26,6 +26,8 @@ Controller.router.route = function () {
         Controller.controllers.signup.refresh();
     } else if (matching = path.match(/^\/hatshop\/views\/profile/)) {
         Controller.controllers.profile.refresh();
+    } else if (matching = path.match(/^\/hatshop\/views\/signout/)) {
+        Controller.controllers.signout.refresh();
     } else {
         console.error('Page not found!');
     }

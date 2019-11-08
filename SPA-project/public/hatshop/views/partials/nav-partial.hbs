@@ -1,6 +1,6 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">Hat Shop</a>
+    <a class="navbar-brand" href="index" onclick="Controller.controllers.nav.link_clicked(event)">Hat Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -11,7 +11,7 @@
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="dropdown01" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">Cart&nbsp;</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="cart.html">View</a>
+                    <a class="dropdown-item" href="shoppingcart" onclick="Controller.controllers.nav.link_clicked(event)">View</a>
                     <a class="dropdown-item" href="purchase"  onclick="Controller.controllers.nav.link_clicked(event)">Checkout</a>
                 </div>
             </li>
@@ -19,10 +19,10 @@
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="dropdown02" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">User&nbsp;</a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="sign-up.html">Sign Up</a>
-                    <a class="dropdown-item" href="sign-in.html">Sign In</a>
+                    <a class="dropdown-item" href="signup" onclick="Controller.controllers.nav.link_clicked(event)">Sign Up</a>
+                    <a class="dropdown-item" href="signin" onclick="Controller.controllers.nav.link_clicked(event)">Sign In</a>
                     <a class="dropdown-item" href="profile" onclick="Controller.controllers.nav.link_clicked(event)">Profile</a>
-                    <a class="dropdown-item" href="#">Sign Out</a>
+                    <a class="dropdown-item" href="signout" onclick="Controller.controllers.nav.link_clicked(event)">Sign Out</a>
                 </div>
             </li>
         </ul>
