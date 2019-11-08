@@ -2,7 +2,7 @@ Controller.controllers.shoppingcart = {};
 Controller.controllers.shoppingcart.refresh = function (matching) {
 	var context = {}
 	if (Model.currentUser) {
-		Model.currentUser.getShoppingCart();
+		Model.currentUser.getShoppingCart()
 			.then(function (shopingcart) {
 				context.shopingcart = shopingcart
 				View.renderer.shoppingcart.render(context)

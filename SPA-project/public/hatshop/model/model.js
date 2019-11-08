@@ -11,7 +11,7 @@ class User {
 		this.userOrders = [];
 		this.id = Date.now();
 	}
-	Model.getShoppingCart = function() {
+	getShoppingCart = function() {
 		return new Promise( function (resolve, reject) {
 			setTimeout( function() {
 				resolve(Model.currentUser.shoppingCart);
