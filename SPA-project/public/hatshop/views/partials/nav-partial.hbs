@@ -1,6 +1,6 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">Hat Shop</a>
+    <a class="navbar-brand" href="index" onclick="Controller.controllers.nav.link_clicked(event)">Hat Shop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -22,7 +22,7 @@
                     <a class="dropdown-item" href="signup" onclick="Controller.controllers.nav.link_clicked(event)">Sign Up</a>
                     <a class="dropdown-item" href="signin" onclick="Controller.controllers.nav.link_clicked(event)">Sign In</a>
                     <a class="dropdown-item" href="profile" onclick="Controller.controllers.nav.link_clicked(event)">Profile</a>
-                    <a class="dropdown-item" href="#">Sign Out</a>
+                    <a class="dropdown-item" href="signout" onclick="Controller.controllers.nav.link_clicked(event)">Sign Out</a>
                 </div>
             </li>
         </ul>
