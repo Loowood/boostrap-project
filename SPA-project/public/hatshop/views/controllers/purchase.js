@@ -14,5 +14,6 @@ Controller.controllers.purchase.refresh = function (matching) {
 
 Controller.controllers.purchase.goToOrder_clicked = function (event) {
 	event.preventDefault();
+	console.log("Go to order", event.target.href);
 	Controller.router.go(event.target.href);
 };

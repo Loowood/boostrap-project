@@ -11,19 +11,19 @@
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputAddress">Address</label>
 							<div class="col-md-10">
-								<input disabled id="inputAddress" class="form-control" type="text" value="123 Sesame Street">
+								<input disabled id="inputAddress" class="form-control" type="text" value="{{order.address}}"> </input>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputCardHolder">Card holder</label>
 							<div class="col-md-10">
-								<input disabled id="inputCardHolder" class="form-control" type="text" value="John Doe">
+								<input disabled id="inputCardHolder" class="form-control" type="text" value="{{order.cardHolder}}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputCardNumber">Card Number</label>
 							<div class="col-md-10">
-								<input disabled id="inputCardNumber" class="form-control" type="text" value="**** **** **** *234">
+								<input disabled id="inputCardNumber" class="form-control" type="text" value="{{order.cardNumber}}">
 							</div>
 						</div>
 						<!-- List of products -->

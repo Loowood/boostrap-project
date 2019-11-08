@@ -20,12 +20,12 @@
 
                                  <div class="form-group">
                                        
-                                        <input type="text" class="form-control" id="usr" placeholder="Card Number"> 
+                                        <input type="text" class="form-control" id="usr" placeholder="{{user.name}}"> 
                                  </div>
 
                                  <div class="form-group">
                                        
-                                        <input type="text" class="form-control" id="usr" placeholder="Card Owner">
+                                        <input type="text" class="form-control" id="usr" placeholder="{{user.surname}}">
                                  </div>
 
 
@@ -37,19 +37,23 @@
                                     <thead>
                                       <tr>
                                         
-                                        <th scope="col">QTY</th>
-                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Number</th>
+                                        <th scope="col">Date</th>
                                         <th scope="col">Total</th>
                                         <th></th>
                                     </thead>
                                     <tbody>
-                                      <tr>
+                                        {{#each user.userOrders}}
+                                        <tr>
                                         
-                                        <td>1</td>
-                                        <td>Product 1</td>
-                                        <td>10 </td>
-                                        <td> <a href="order" onclick="Controller.controllers.order.goToOrder_clicked(event)"><button type="button" class="btn btn-primary" onclick="Controller.controllers.order.goToOrder_clicked(event)"> Details </button> </a> </td>
-                                      </tr>
+                                        
+                                        <td>{{this.number}}</td>
+                                        <td>{{this.date}}</td>
+                                        <td>{{this.total}}</td>
+                                        <td> <a href="order/{{this.number}}" onclick="Controller.controllers.purchase.goToOrder_clicked(event)"> Details </a> </td>
+                                        </tr>
+                                        {{/each}}
+                                     
                                     </tbody>
                                   </table>
                             </div>

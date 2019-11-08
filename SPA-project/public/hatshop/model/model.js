@@ -148,6 +148,7 @@ Model.orders = [
 	new Order(3, "04/07/2019", "Lake Str.", "55,77 $", "5%", "59.15", "Jesse Merano", "**** **** **** *258", "Item3"  ),
 	new Order(4, "05/05/2019", "Porto Str.", "67,77 $", "5%", "71.15", "Miguel Farno", "**** **** **** *369", "Item4"  )
 ]
+Model.users[0].userOrders= Model.orders;
 
 Model.getProducts = function(){
 	return new Promise(function (resolve, reject) {
