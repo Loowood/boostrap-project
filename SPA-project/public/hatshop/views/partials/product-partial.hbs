@@ -1,13 +1,11 @@
 <div class="col-xl-3 col-lg-4 col-md-6 sm-12 col-12">
     <div class="card text-white bg-primary mb-3">
-        <img class="card-img-top" src="{{url}}">
-        <div class="card-header">{{name}}</div>
+        <img class="card-img-top" src="{{product.url}}">
+        <div class="card-header">{{product.name}}</div>
         <div class="card-body">
-            <p class="card-text">{{description}}</p>
+            <p class="card-text">{{product.description}}</p>
             <div class="card-footer row">
-                <h2 class="mr-auto">{{price}} €</h2>
-                <a href="cart.html">
-                    <button class="btn btn-warning">BUY</button>
-                </a>
+                <h2 class="mr-auto">{{product.price}} €</h2>
+                    <button class="btn btn-warning" onclick="Controller.controllers.index.buyOnClick(event, {{json product}})">BUY</button
             </div>
         </div></div></div>

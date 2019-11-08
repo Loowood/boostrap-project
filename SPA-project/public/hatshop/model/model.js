@@ -12,7 +12,7 @@ class User {
 		User.ids += 1;
 		this.id = User.ids;
 	}
-	Model.getShoppingCart = function() {
+	getShoppingCart = function() {
 		return new Promise( function (resolve, reject) {
 			setTimeout( function() {
 				resolve(Model.currentUser.shoppingCart);
