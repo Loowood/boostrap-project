@@ -1,29 +1,29 @@
 <div class="container">
-<h2>Order Number</h2>
+<h2>Order</h2>
 				<div>
 					<form class="ml-1">
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputDate">Date</label>
 							<div class="col-md-10">
-								<input disabled id="inputDate" class="form-control" type="date" value="2019-01-01">
+								<input disabled id="inputDate" class="form-control" type="text" value="{{order.date}}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputAddress">Address</label>
 							<div class="col-md-10">
-								<input disabled id="inputAddress" class="form-control" type="text" value="123 Sesame Street">
+								<input disabled id="inputAddress" class="form-control" type="text" value="{{order.address}}"> </input>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputCardHolder">Card holder</label>
 							<div class="col-md-10">
-								<input disabled id="inputCardHolder" class="form-control" type="text" value="John Doe">
+								<input disabled id="inputCardHolder" class="form-control" type="text" value="{{order.cardHolder}}">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-form-label col-md-2" for="inputCardNumber">Card Number</label>
 							<div class="col-md-10">
-								<input disabled id="inputCardNumber" class="form-control" type="text" value="**** **** **** *234">
+								<input disabled id="inputCardNumber" class="form-control" type="text" value="{{order.cardNumber}}">
 							</div>
 						</div>
 						<!-- List of products -->
@@ -38,42 +38,34 @@
 								</tr>
 							</thead>
 							<tbody>
+								{{#each order.orderItems}}
 								<tr>
-									<td>5</td>
-									<td>Basic Hat</td>
-									<td>5,00 €</td>
-									<td>25,00 €</td>
+									
+									<td>{{this.qty}}</td>
+									<td>{{this.product.name}}</td>
+									<td>{{this.price}}</td>
+									<td>{{this.total}}</td>
 								</tr>
-								<tr>
-									<td>1</td>
-									<td>Luxuous Hat</td>
-									<td>524,99 €</td>
-									<td>524,99 €</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>Lovers Hat</td>
-									<td>30,00 €</td>
-									<td>60,00 €</td>
-								</tr>
+								
+								{{/each}}
 							</tbody>
 						</table>
 						<div class="form-group row ml-1">
 							<label class="col-form-label col-md-2" for="inputSubTotal">SubTotal</label>
 							<div class="col-md-10">
-								<input disabled id="inputSubTotal" class="form-control" value="609,99 €">
+								<input disabled id="inputSubTotal" class="form-control" value="{{order.subtotal}}">
 							</div>
 						</div>
 						<div class="form-group row ml-1">
 							<label class="col-form-label col-md-2" for="inputTax">Tax</label>
 							<div class="col-md-10">
-								<input disabled id="inputTax" class="form-control" type="text" value="20%">
+								<input disabled id="inputTax" class="form-control" type="text" value="{{order.tax}}">
 							</div>
 						</div>
 						<div class="form-group row ml-1">
 							<label class="col-form-label col-md-2" for="inputTotal">Total</label>
 							<div class="col-md-10">
-								<input disabled id="inputTotal" class="form-control" type="text" value="731,988 €">
+								<input disabled id="inputTotal" class="form-control" type="text" value="{{order.total}}">
 							</div>
 						</div>
 					</form>

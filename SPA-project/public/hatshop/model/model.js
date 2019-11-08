@@ -11,13 +11,22 @@ class User {
 		this.userOrders = [];
 		this.id = Date.now();
 	}
-	getShoppingCart = function() {
-		return new Promise( function (resolve, reject) {
-			setTimeout( function() {
-				resolve(Model.currentUser.shoppingCart);
-			}, 500);
-		})
+
+	getOrdersTotal() {
+		let total = 0;
+		this.userOrders.forEach( x => total += parseFloat(x.total) );
+		return total;
 	}
+
+
+}
+
+Model.getShoppingCart = function() {
+	return new Promise( function (resolve, reject) {
+		setTimeout( function() {
+			resolve(Model.currentUser.shoppingCart);
+		}, 500);
+	})
 }
 
 Model.currentUser = null;
@@ -29,16 +38,40 @@ class ShoppingCart {
 		this.total = 0;
 		this.tax = 0;
 		this.items = [];
-		}
-
-	updateSubTotal() {
-		this.items.forEach((item) => {
-			this.subTotal = this.subTotal + item.total
+	}
+	empty() {
+		this.subtotal = 0;
+		this.total = 0;
+		this.tax = 0;
+		this.items = [];
+	}
+	addItem(product) {
+		var self = this;
+		return new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				self.items.forEach( item => {
+					if (item.product == product) {
+						item.addOne();
+					}
+				});
+				var item = new Item(null, 1, product.price, product);
+				self.items.push(item);
+				self.update();
+				resolve();
+			}, 500);
 		})
 	}
 
+	updateSubTotal() {
+		this.subtotal = 0
+		this.items.forEach( (item) => {
+			this.subtotal = this.subtotal + item.total
+		})
+		this.subtotal = Math.round(this.subtotal * 100) / 100;
+	}
+
 	updateTotal() {
-		this.total = this.subTotal + this.tax
+		this.total = this.subtotal + this.tax
 	}
 	updateTax() {
 		this.tax = 0.20 * this.subTotal
@@ -113,6 +146,11 @@ Model.products = [
 	new Product("Holmes", "Nulla auctor lectus vulputate fermentum commodo. Mauris accumsan eu justo eu maximus. Etiam vitae erat sit amet est egestas tempor. Integer imperdiet luctus diam et pellentesque. Sed pretium quam ex, ac tristique neque porta eu.", 40, "/hatshop/images/HolmesHat.jpg")
 ]
 
+//Order number, date, address, subtotal, tax, total, cardHolder, cardNumber, items
+
+
+
+
 Model.getProducts = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout( function() {
@@ -172,7 +210,7 @@ Model.checkUser = function (usrEmail, usrPassword) {
 				break;
 			}
 		}
-	} 
+	}
 	return new Promise(function (resolve,reject){
 		if(found != null){
 			resolve(found);
@@ -205,14 +243,3 @@ Model.signUp = function(userInfo){
 		}
 	})
 }
-
-Model.removeProductInShoppingCart = function(product) {
-	return new Promise(function (resolve, reject) {
-		setTimeout(function () {
-			Model.currentUser.shoppingCart = Model.currentUser.shoppingCart.items.filter((item) => {return item.product !== product})
-			model.currentUser.shoppingCart.update()
-			resolve()
-		}, 500)
-	})
-}
-

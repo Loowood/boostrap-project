@@ -1,5 +1,9 @@
 {{#>base title="Order"}}
     {{#*inline "main-block"}}
-        {{> order-partial}}
+        {{#if userConnected}}
+            {{> order-partial order = order}}
+        {{else}}
+            <h1> You should be connected </h1>
+        {{/if}}
     {{/inline}}
 {{/base}}

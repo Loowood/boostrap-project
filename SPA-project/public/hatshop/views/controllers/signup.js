@@ -16,6 +16,8 @@ Controller.controllers.signup.signUp = function(event){
         Model.signUp(userInfo).then(function(){
             let newUser = new User(userInfo.username, userInfo.surname, userInfo.email,userInfo.birthdate,userInfo.address,userInfo.password);
             Model.addUser(newUser);
+            Controller.router.go("signin");
+            View.renderer.signin.render({})
         }).catch(function(){
             View.renderer.signup.render({});
         })
