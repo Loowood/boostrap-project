@@ -31,31 +31,38 @@ class ShoppingCart {
 		this.tax = 0;
 		this.items = [];
 	}
+	empty() {
+		this.subtotal = 0;
+		this.total = 0;
+		this.tax = 0;
+		this.items = [];
+	}
 	addItem(product) {
+		var self = this;
 		return new Promise(function (resolve, reject) {
 			setTimeout(function () {
-				for (item of this.items) {
+				self.items.forEach( item => {
 					if (item.product == product) {
-						item.addOne()
+						item.addOne();
 					}
-				}
-				item = new Item(null, 1, product.price, product)
-				this.items.push(item)
-				this.update()
-				resolve()
-			}, 500)
+				});
+				var item = new Item(null, 1, product.price, product);
+				self.items.push(item);
+				self.update();
+				resolve();
+			}, 500);
 		})
 	}
 
 	updateSubTotal() {
 		this.subtotal = 0
-		for (item of this.items) {
+		this.items.forEach( (item) => {
 			this.subtotal = this.subtotal + item.total
-		}
+		})
 	}
 
 	updateTotal() {
-		this.total = this.total + this.tax
+		this.total = this.subtotal + this.tax
 	}
 
 	removeItem(product) {
@@ -220,14 +227,14 @@ Model.checkUser = function (usrEmail, usrPassword) {
 				break;
 			}
 		}
-	} 
+	}
 	return new Promise(function (resolve,reject){
 		if(found != null){
 			resolve(found);
 		}else{
 			reject();
 		}
-	})	
+	})
 }
 
 Model.signUp = function(userInfo){

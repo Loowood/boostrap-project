@@ -1,14 +1,28 @@
-<h1>shopping cart</h1>
+<h1>Shopping cart</h1>
 {{#if items.length}}
-	<h3>Item in the shopping cart</h3>
-	{{#each items}}
-
-	{{/each}}
-    <table>
-        <tr><td>sub total</td><td>{{subTotal}}</td></tr>
+	<h3>Items in the shopping cart</h3>
+	<table class="table table-striped">
+		<thead>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Product Name</th>
+		</thead>
+		<tbody>
+			{{#each items}}
+				<tr>
+					<td>{{this.qty}}</td>
+					<td>{{this.price}}</td>
+					<td>{{this.product.name}}</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+    <table class="table table-striped">
+        <tr><td>sub total</td><td>{{subtotal}}</td></tr>
         <tr><td>tax (20%)</td><td>{{tax}}</td></tr>
         <tr><td>total</td><td>{{total}}</td></tr>
     </table>
-	{{else}}
-	<h3>no item in the shopping cart</h3>
+	<button class="btn btn-primary" onclick="Controller.controllers.shoppingcart.checkout(event)"> Checkout </button>
+{{else}}
+	<h3>No items in the shopping cart</h3>
 {{/if}}

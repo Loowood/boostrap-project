@@ -16,9 +16,20 @@
                     <h4 class="card-title">Order List</h4>
                     User Orders Size = {{user.userOrders.length}}
                     {{#if user.userOrders.length}}
-                        <h1>No</h1>
+                        <table>
+                            <thead>
+                                <th>Number</th>
+                            </thead>
+                            <tbody>
+                                {{#each user.userOrders}}
+                                    <tr>
+                                        <td>{{this.number}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
                     {{else}}
-                        <h1>Yes</h1>
+                        <h1>You have no orders</h1>
                     {{/if}}
                 </div>
 

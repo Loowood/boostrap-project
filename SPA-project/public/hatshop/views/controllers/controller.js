@@ -18,7 +18,7 @@ Controller.router.route = function () {
         Controller.controllers.signin.refresh();
     } else if (matching = path.match(/^\/hatshop\/views\/purchase$/)) {
         Controller.controllers.purchase.refresh();
-    } else if (matching = path.match(/^\/hatshop\/views\/order\/([0-9]+)$/)) {
+    } else if (matching = path.match(/^\/hatshop\/views\/order-([0-9]+)$/)) {
         Controller.controllers.order.refresh(matching);
     } else if (matching = path.match(/^\/hatshop\/views\/shoppingcart$/)) {
         Controller.controllers.shoppingcart.refresh();
