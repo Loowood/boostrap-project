@@ -143,12 +143,29 @@ Model.products = [
 
 //Order number, date, address, subtotal, tax, total, cardHolder, cardNumber, items
 Model.orders = [
-	new Order(1, "02/06/2019", "Fernado Str.", "77,77 $", "10%", "85.15", "Leonel Messi", "**** **** **** *777", "Item1"  ),
-	new Order(2, "01/05/2019", "Pablo Str.", "17,77 $", "5%", "20.15", "Chris Roneal", "**** **** **** *697", "Item2"  ),
-	new Order(3, "04/07/2019", "Lake Str.", "55,77 $", "5%", "59.15", "Jesse Merano", "**** **** **** *258", "Item3"  ),
-	new Order(4, "05/05/2019", "Porto Str.", "67,77 $", "5%", "71.15", "Miguel Farno", "**** **** **** *369", "Item4"  )
+	new Order(1, "02/06/2019", "Fernado Str.", "50 $", "10%", "55", "Leonel Messi", "**** **** **** *777", []   ),
+	new Order(2, "01/05/2019", "Pablo Str.", "0.1 $", "0%", "0.1", "Chris Roneal", "**** **** **** *697", []  ),
+	new Order(3, "04/07/2019", "Lake Str.", "30 $", "5%", "31.5", "Jesse Merano", "**** **** **** *258", []  ),
+	new Order(4, "05/05/2019", "Porto Str.", "2509.98 $", "5%", "2635.48", "Miguel Farno", "**** **** **** *369", [] )
 ]
+
+
+Model.items =[
+	new Item(Model.orders[0], 5, 10, Model.products[0]),
+	new Item(Model.orders[1], 10, 0.01, Model.products[1]),
+	new Item(Model.orders[2], 2, 15, Model.products[2]),
+	new Item(Model.orders[3], 2, 1254.99, Model.products[3]),
+]
+
+Model.orders[0].orderItems.push(Model.items[0])
+Model.orders[1].orderItems.push(Model.items[1])
+Model.orders[2].orderItems.push(Model.items[2])
+Model.orders[3].orderItems.push(Model.items[3])
+
 Model.users[0].userOrders= Model.orders;
+
+
+
 
 Model.getProducts = function(){
 	return new Promise(function (resolve, reject) {
