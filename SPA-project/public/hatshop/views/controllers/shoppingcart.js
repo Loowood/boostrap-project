@@ -21,3 +21,10 @@ Controller.controllers.shoppingcart.addProductToShoppingCart = function (product
 		Controller.controllers.shoppingcart.redirectToSignIn()
 	})
 }
+
+
+Controller.controllers.shoppingcart.removeProductToShoppingCart = function (event, product) {
+	event.preventDefault()
+	Model.removeProductInShoppingCart(product)
+	Controller.controllers.shoppingcart.refresh()
+}

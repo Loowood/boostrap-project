@@ -40,17 +40,6 @@ class ShoppingCart {
 	updateTotal() {
 		this.total = this.subTotal + this.tax
 	}
-
-	removeItem(product) {
-		return new Promise(function (resolve, reject) {
-			setTimeout(function () {
-				this.items = array.filter((item, index, arr) => {return item.product !== product})
-				this.update()
-				resolve()
-			}, 500)
-		})
-	}
-
 	updateTax() {
 		this.tax = 0.20 * this.subTotal
 	}
@@ -214,6 +203,16 @@ Model.signUp = function(userInfo){
 		}else{
 			resolve();
 		}
+	})
+}
+
+Model.removeProductInShoppingCart = function(product) {
+	return new Promise(function (resolve, reject) {
+		setTimeout(function () {
+			Model.currentUser.shoppingCart = Model.currentUser.shoppingCart.items.filter((item) => {return item.product !== product})
+			model.currentUser.shoppingCart.update()
+			resolve()
+		}, 500)
 	})
 }
 

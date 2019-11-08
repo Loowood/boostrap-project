@@ -9,6 +9,7 @@
             <td>{{this.qty}}</td>
             <td>{{this.price}}</td>
             <td>{{this.total}}</td>
+            <td><button onclick="Controller.controllers.shoppingcart.removeProductToShoppingCart(event, {{json this}})">remove</button></td>
         </tr>
 	{{/each}}
     </table>
