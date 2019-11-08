@@ -25,36 +25,20 @@ Model.currentUser = null;
 
 class ShoppingCart {
 	constructor() {
-		this.subtotal = 0;
+		this.subTotal = 0;
 		this.total = 0;
 		this.tax = 0;
 		this.items = [];
-	}
-	addItem(product) {
-		return new Promise(function (resolve, reject) {
-			setTimeout(function () {
-				for (item of this.items) {
-					if (item.product == product) {
-						item.addOne()
-					}
-				}
-				item = new Item(null, 1, product.price, product)
-				this.items.push(item)
-				this.update()
-				resolve()
-			}, 500)
+		}
+
+	updateSubTotal() {
+		this.items.forEach((item) => {
+			this.subTotal = this.subTotal + item.total
 		})
 	}
 
-	updateSubTotal() {
-		this.subtotal = 0
-		for (item of this.items) {
-			this.subtotal = this.subtotal + item.total
-		}
-	}
-
 	updateTotal() {
-		this.total = this.total + this.tax
+		this.total = this.subTotal + this.tax
 	}
 
 	removeItem(product) {
@@ -68,7 +52,7 @@ class ShoppingCart {
 	}
 
 	updateTax() {
-		this.tax = 0.20 * this.subtotal
+		this.tax = 0.20 * this.subTotal
 	}
 
 	update() {
@@ -164,22 +148,28 @@ Model.addUser = function(user) {
 		}, 2000);
 	})
 };
-Model.addItemToShoppingCart = function(usr, item) {
-	var found = false;
-	Model.users.forEach(user => {
-		if (user.name == usr.name && user.surname == usr.surname) {
-			if ( user.shoppingCart == null ){
-				user.shoppingCart = new ShoppingCart();
-			}
-			user.shoppingCart.items.push(item);
-			found = true;
-		}
-	});
+Model.addProductToShoppingCart = function(product) {
 	return new Promise(function (resolve, reject) {
-		if (found){
-			resolve("ok");
+		if (Model.currentUser) {
+			setTimeout(function () {
+				var found = false
+				for (i=0;Model.currentUser.shoppingCart.length;i++) {
+					if (item.product == product) {
+						Model.currentUser.shoppingCart.items[i].addOne()
+						found=true
+					}
+				}
+				if (!found) {
+					var item = new Item(null, 1, product.price, product)
+					Model.currentUser.shoppingCart.items.push(item)
+					Model.currentUser.shoppingCart.update()
+				}
+				resolve()
+			}, 500)
 		} else {
-			reject("NO");
+			setTimeout(function () {
+				reject()
+			})
 		}
 	})
 }
@@ -200,7 +190,7 @@ Model.checkUser = function (usrEmail, usrPassword) {
 		}else{
 			reject();
 		}
-	})	
+	})
 }
 
 Model.signUp = function(userInfo){
@@ -226,3 +216,4 @@ Model.signUp = function(userInfo){
 		}
 	})
 }
+

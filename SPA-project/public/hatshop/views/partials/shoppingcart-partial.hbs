@@ -1,14 +1,20 @@
 <h1>shopping cart</h1>
-{{#if items.length}}
+{{#if shoppingCart.items.length}}
 	<h3>Item in the shopping cart</h3>
-	{{#each items}}
-
-	{{/each}}
     <table>
-        <tr><td>sub total</td><td>{{subTotal}}</td></tr>
-        <tr><td>tax (20%)</td><td>{{tax}}</td></tr>
-        <tr><td>total</td><td>{{total}}</td></tr>
+        <tr><th>product Name</th><th>quantity</th><th>price</th><th>total</th></tr>
+	{{#each shoppingCart.items}}
+        <tr>
+            <td>{{this.product.name}}</td>
+            <td>{{this.qty}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.total}}</td>
+        </tr>
+	{{/each}}
     </table>
+    <label>sub-total: {{shoppingCart.subTotal}}</label>
+    <label>tax: {{shoppingCart.tax}}</label>
+    <label>total: {{shoppingCart.total}}</label>
 	{{else}}
 	<h3>no item in the shopping cart</h3>
 {{/if}}
