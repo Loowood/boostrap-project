@@ -1,6 +1,6 @@
 var Model = {};
 class User {
-	constructor (name, surname, email, birth, address, password) {
+	constructor (id, name, surname, email, birth, address, password) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
@@ -9,7 +9,7 @@ class User {
 		this.password = password;
 		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
-		this.id = Date.now();
+		this.id = id;
 	}
 
 	getOrdersTotal() {
@@ -21,12 +21,19 @@ class User {
 
 }
 
-Model.getShoppingCart = function() {
-	return new Promise( function (resolve, reject) {
-		setTimeout( function() {
-			resolve(Model.currentUser.shoppingCart);
-		}, 500);
-	})
+Model.getShoppingCart = function(uid) {
+	return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: "/api/users/"+uid+"/cart",
+            method: "GET"
+        })
+        .done( (data) => {
+            resolve(data);
+        })
+        .fail( (error) => {
+            reject(error);
+        })
+    });
 }
 
 Model.currentUser = null;
@@ -133,8 +140,8 @@ class Order {
 // === Initialisation
 // Users
 Model.users = [
-	new User("John", "Doe", "example@xyz.com", "08-05-1990", "123 Sesame Street", "azerty123"),
-	new User("H@xor", "TheHacker", "haxor@gmail.com", "01-01-2001", "Antarctica", "youwillneverguess")
+	new User(1, "John", "Doe", "example@xyz.com", "08-05-1990", "123 Sesame Street", "azerty123"),
+	new User(2, "H@xor", "TheHacker", "haxor@gmail.com", "01-01-2001", "Antarctica", "youwillneverguess")
 ];
 // Products
 Model.products = [
@@ -183,7 +190,6 @@ Model.getProduct = function(id) {
     });
 }
 
-
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
@@ -199,30 +205,20 @@ Model.addUser = function(user) {
 		}, 2000);
 	})
 };
-Model.addProductToShoppingCart = function(product) {
-	return new Promise(function (resolve, reject) {
-		if (Model.currentUser) {
-			setTimeout(function () {
-				var found = false
-				for (i=0;Model.currentUser.shoppingCart.length;i++) {
-					if (item.product == product) {
-						Model.currentUser.shoppingCart.items[i].addOne()
-						found=true
-					}
-				}
-				if (!found) {
-					var item = new Item(null, 1, product.price, product)
-					Model.currentUser.shoppingCart.items.push(item)
-					Model.currentUser.shoppingCart.update()
-				}
-				resolve()
-			}, 500)
-		} else {
-			setTimeout(function () {
-				reject()
-			})
-		}
-	})
+Model.addProductToShoppingCart = function(uid, product) {
+	return new Promise( function (resolve, reject) {
+        $.ajax({
+            url: '/api/users/'+uid+'/cart/items/'+product.id,
+            method: 'POST',
+            contents: product
+        })
+        .done( (data) => {
+            resolve(data);
+        })
+        .fail( (error) => {
+            reject(error);
+        })
+    })
 }
 
 Model.checkUser = function (usrEmail, usrPassword) {

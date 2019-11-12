@@ -2,7 +2,7 @@ Controller.controllers.shoppingcart = {};
 Controller.controllers.shoppingcart.refresh = function (matching) {
 	var context = {}
 	if (Model.currentUser) {
-		Model.getShoppingCart().then(function (shoppingCart) {
+		Model.getShoppingCart(Model.currentUser.id).then(function (shoppingCart) {
 				context.shoppingCart = shoppingCart
 				View.renderer.shoppingcart.render(context)
 			})
@@ -16,11 +16,7 @@ Controller.controllers.shoppingcart.redirectToSignIn = function() {
 }
 Controller.controllers.shoppingcart.addProductToShoppingCart = function (product) {
 	if (Model.currentUser) {
-		Model.getShoppingCart().then(function (shopingCart) {
-			shopingCart.addItem(product).then(function () {
-				console.log("item added")
-			})
-		})
+		Model.addProductToShoppingCart(Model.currentUser.id, product);
 	} else {
 		Controller.controllers.shoppingcart.redirectToSignIn()
 	}
@@ -28,9 +24,9 @@ Controller.controllers.shoppingcart.addProductToShoppingCart = function (product
 
 Controller.controllers.shoppingcart.checkout = function(event) {
 	event.preventDefault();
-	let tempOrder = new Order(Date.now(),new Date().getDate(), Model.currentUser.address, Model.currentUser.shoppingCart.subtotal, Model.currentUser.shoppingCart.tax, Model.currentUser.shoppingCart.total, "Card Holder Example", "Card Number Example", Model.currentUser.shoppingCart.items);
-	Model.currentUser.userOrders.push(tempOrder);
-	Model.currentUser.shoppingCart.empty();
+	let tempCart = Model.getShoppingCart(Model.currentUser);
+	let tempOrder = new Order(Date.now(),new Date().getDate(), Model.currentUser.address, tempCart.subTotal, tempCart.tax, tempCart.total, "Card Holder Example", "Card Number Example", tempCart.items);
+	Model.currentUser.userOrders.push(tempOrder); // TODO : Change to API Call
 	Controller.router.go("purchase");
 	Controller.controllers.purchase.refresh();
 }
