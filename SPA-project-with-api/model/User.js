@@ -1,5 +1,6 @@
+const ShoppingCart = require('./ShoppingCart')
 class User {
-	constructor (name, surname, email, birth, address, password) {
+	constructor (id, name, surname, email, birth, address, password) {
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
@@ -8,7 +9,7 @@ class User {
 		this.password = password;
 		this.shoppingCart = new ShoppingCart();
 		this.userOrders = [];
-		this.id = Date.now();
+		this.id = id;
 	}
 
 	getOrdersTotal() {
