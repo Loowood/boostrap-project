@@ -29,7 +29,7 @@ Model.getShoppingCart = function() {
 	})
 }
 
-Model.currentUser = null;
+Model.currentId = null;
 
 
 class ShoppingCart {
@@ -183,6 +183,20 @@ Model.getProduct = function(id) {
     });
 }
 
+Model.getShoppingCartItems = function(uid){
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			url: "/api/users/" + uid + "/cart/items",
+			method: "GET"
+		})
+			.done((data) => {
+				resolve(data);
+			})
+			.fail((error) => {
+				reject(error);
+			})
+	});
+}
 
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
