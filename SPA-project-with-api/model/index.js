@@ -51,6 +51,30 @@ Model.addUser = function(user) {
 	})
 };
 
+Model.addProductToShoppingCart = function(userId, productId) {
+	return new Promise(function (resolve, reject) {
+		let userIndex = Model.users.indexOf(Model.users.find(user => user.id == userId))
+		if (userIndex === undefined) {
+			reject({"error": "user doesn't exist"})
+		}
+		let productIndex = Model.products.indexOf(Model.products.find(product => product.id == productId))
+		if (productIndex === undefined) {
+			reject({"error":"The product doesn't exist"})
+		}
+		let itemIndex = Model.users[userIndex].shoppingCart.items.indexOf(Model.users[userIndex].shoppingCart.items.find(item => item.product === Model.products[productIndex]))
+		if (itemIndex === -1) {
+			let product = Model.products[productIndex]
+			let item = new Item(null, 1, product.price, product)
+			Model.users[userIndex].shoppingCart.items.push(item)
+			Model.users[userIndex].shoppingCart.update()
+			resolve({"succcess":"Item added"})
+		} else {
+			Model.users[userIndex].shoppingCart.items[itemIndex].addOne()
+			Model.users[userIndex].shoppingCart.update()
+			resolve({"success":"Product quantity incremented"})
+		}
+	})
+}
 
 Model.checkUser = function (usrEmail, usrPassword) {
 	var found = null;
