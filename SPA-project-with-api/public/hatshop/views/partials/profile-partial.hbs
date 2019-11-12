@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-12">
+            <div class="card text-black mb-3">
+
+                <div class="card-body">
+                    <h4 class="card-title">Profile</h4>
+                    <h6>Name: <span class="label label-default">{{profile.name}}</span></h6>
+                    <h6>Surname: <span class="label label-default">{{profile.surname}}</span></h6>
+                    <h6>Birth: <span class="label label-default">{{profile.birth}}</span></h6>
+                    <h6>Adress: <span class="label label-default">{{profile.address}}</span></h6>
+                    <h6>Email: <span class="label label-default">{{profile.email}}</span></h6>
+                </div>
+
+                <div class="card-body">
+                    <h4 class="card-title">Order List</h4>
+                    User Orders Size = {{user.userOrders.length}}
+                    {{#if user.userOrders.length}}
+                        <table>
+                            <thead>
+                                <th>Number</th>
+                            </thead>
+                            <tbody>
+                                {{#each user.userOrders}}
+                                    <tr>
+                                        <td>{{this.number}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{else}}
+                        <h1>You have no orders</h1>
+                    {{/if}}
+                </div>
+
+
+                </div> </div></div>
+            </div>

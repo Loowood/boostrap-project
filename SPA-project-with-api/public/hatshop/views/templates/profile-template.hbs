@@ -1,0 +1,9 @@
+{{#>base title="Profile"}}
+    {{#*inline "main-block"}}
+        {{#if userConnected}}
+            {{> profile-partial profile=user}}
+        {{else}}
+            <h1>You should be connected first</h1>
+        {{/if}}
+    {{/inline}}
+{{/base}}
