@@ -39,6 +39,9 @@ Model.getProducts = function() {
 Model.getProduct = function(pid) { 
 	return new Promise((resolve, reject) => {
 		let product = Model.products.find((product) => product.id == pid)
+		if (product === undefined) {
+			reject({"error":"Thereis no product with this id"})
+		}
 		resolve(product)
 	})
 }
@@ -122,7 +125,10 @@ Model.signUp = function(userInfo){
 Model.getUserShoppingCart = function(userId) {
 	return new Promise( function (resolve, reject) {
 		setTimeout( function() {
-			let user = Model.users.filter((user) => user.id == userId)[0]
+			let user = Model.users.find((user) => user.id == userId)
+			if (user === undefined) {
+				reject({"error":"No user with this ID"})
+			}
 			resolve(user.shoppingCart);
 		}, 500);
 	})
