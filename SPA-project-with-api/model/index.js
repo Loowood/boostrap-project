@@ -121,21 +121,15 @@ Model.decreaseQtyProductToShoppingCart = function(userId, productId){
 	})
 }
 
-Model.checkUser = function (usrEmail, usrPassword) {
-	var found = null;
-	for(user of Model.users){
-		if (user.email == usrEmail){
-			if(user.password == usrPassword){
-				found = user;
-				break;
+Model.signInUser = function (userEmail, userPassword) {
+	return new Promise(function (resolve, reject){
+		let userIndex = Model.users.indexOf(Model.users.find(user => user.email == userEmail))
+		if (userIndex !== -1) {
+			if (Model.users[userIndex].password === userPassword) {
+				resolve({"id":Model.users[userIndex].id})
 			}
-		}
-	}
-	return new Promise(function (resolve,reject){
-		if(found != null){
-			resolve(found);
-		}else{
-			reject();
+		} else {
+			reject({"error":"The username or password is incorrect"})
 		}
 	})
 }
