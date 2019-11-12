@@ -9,4 +9,6 @@ router.get('/product/:pid', product.getProduct)
 router.get('/users/:uid/cart', users.getUserShoppingCart)
 router.get('/users/:uid/cart/items', users.getUserShoppingCartItems)
 router.post('/users/:uid/cart/items/:pid', users.addProductToShoppingCart)
+router.delete('/users/:uid/cart/items/:pid', users.deleteProductToShoppingCart)
+router.delete('/users/:uid/cart/items/:pid/decrease', users.decreaseQtyProductToShoppingCart)
 module.exports = router;

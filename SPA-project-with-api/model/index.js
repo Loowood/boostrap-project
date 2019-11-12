@@ -36,7 +36,7 @@ Model.getProducts = function() {
 	})
 }
 
-Model.getProduct = function(pid) { 
+Model.getProduct = function(pid) {
 	return new Promise((resolve, reject) => {
 		let product = Model.products.find((product) => product.id == pid)
 		if (product === undefined) {
@@ -57,11 +57,11 @@ Model.addUser = function(user) {
 Model.addProductToShoppingCart = function(userId, productId) {
 	return new Promise(function (resolve, reject) {
 		let userIndex = Model.users.indexOf(Model.users.find(user => user.id == userId))
-		if (userIndex === undefined) {
+		if (userIndex === -1) {
 			reject({"error": "user doesn't exist"})
 		}
 		let productIndex = Model.products.indexOf(Model.products.find(product => product.id == productId))
-		if (productIndex === undefined) {
+		if (productIndex === -1) {
 			reject({"error":"The product doesn't exist"})
 		}
 		let itemIndex = Model.users[userIndex].shoppingCart.items.indexOf(Model.users[userIndex].shoppingCart.items.find(item => item.product === Model.products[productIndex]))
@@ -76,6 +76,48 @@ Model.addProductToShoppingCart = function(userId, productId) {
 			Model.users[userIndex].shoppingCart.update()
 			resolve({"success":"Product quantity incremented"})
 		}
+	})
+}
+
+Model.deleteProductToShoppingCart = function(userId, productId) {
+	return new Promise(function(resolve, reject) {
+		let userIndex = Model.users.indexOf(Model.users.find(user => user.id == userId))
+		if (userIndex === -1) {
+			reject({"error": "user doesn't exist"})
+		}
+		let productIndex = Model.products.indexOf(Model.products.find(product => product.id == productId))
+		if (productIndex === -1) {
+			reject({"error":"The product doesn't exist"})
+		}
+		let itemIndex = Model.users[userIndex].shoppingCart.items.indexOf(Model.users[userIndex].shoppingCart.items.find(item => item.product === Model.products[productIndex]))
+		if (itemIndex === -1) {
+			reject({"error":"The product is not in the shopping cart"})
+		}
+		let newShoppingCartItems = Model.users[userIndex].shoppingCart.items.filter(item => item.product.id != productId)
+		Model.users[userIndex].shoppingCart.items = newShoppingCartItems
+		Model.users[userIndex].shoppingCart.update()
+		resolve({"success":"Item deleted"})
+	})
+}
+
+
+Model.decreaseQtyProductToShoppingCart = function(userId, productId){
+	return new Promise(function(resolve, reject) {
+		let userIndex = Model.users.indexOf(Model.users.find(user => user.id == userId))
+		if (userIndex === -1) {
+			reject({"error": "user doesn't exist"})
+		}
+		let productIndex = Model.products.indexOf(Model.products.find(product => product.id == productId))
+		if (productIndex === -1) {
+			reject({"error":"The product doesn't exist"})
+		}
+		let itemIndex = Model.users[userIndex].shoppingCart.items.indexOf(Model.users[userIndex].shoppingCart.items.find(item => item.product === Model.products[productIndex]))
+		if (itemIndex === -1) {
+			reject({"error":"The product is not in the shopping cart"})
+		}
+		Model.users[userIndex].shoppingCart.items[itemIndex].removeOne()
+		Model.users[userIndex].shoppingCart.update()
+		resolve({"success":"Quantity decreased"})
 	})
 }
 
