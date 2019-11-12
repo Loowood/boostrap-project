@@ -29,4 +29,24 @@ users.addProductToShoppingCart = function(req, res){
 			res.status(500).json(error)
 		})
 }
+
+users.deleteProductToShoppingCart = function(req, res){
+	Model.deleteProductToShoppingCart(req.params.uid, req.params.pid)
+		.then((message) => {
+			res.status(200).json(message)
+		}).catch(error => {
+			console.error(error)
+			res.status(500).json(error)
+		})
+}
+
+users.decreaseQtyProductToShoppingCart = function(req, res){
+	Model.decreaseQtyProductToShoppingCart(req.params.uid, req.params.pid)
+		.then((message) => {
+			res.status(200).json(message)
+		}).catch(error => {
+			console.error(error)
+			res.status(500).json(error)
+		})
+}
 module.exports = users
