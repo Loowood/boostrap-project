@@ -152,11 +152,35 @@ Model.products = [
 
 
 Model.getProducts = function(){
+
 	return new Promise(function (resolve, reject) {
-		setTimeout( function() {
-			resolve(Model.products);
-		}, 500);
-	})
+        $.ajax({
+            url: "/api/products",
+            method: "GET"
+        })
+        .done( (data) => {
+            resolve(data);
+        })
+        .fail( (error) => {
+            reject(error);
+        })
+    });
+
+}
+
+Model.getProduct = function(id) {
+	return new Promise(function (resolve, reject) {
+        $.ajax({
+            url: "/api/product/"+id,
+            method: "GET"
+        })
+        .done( (data) => {
+            resolve(data);
+        })
+        .fail( (error) => {
+            reject(error);
+        })
+    });
 }
 
 
