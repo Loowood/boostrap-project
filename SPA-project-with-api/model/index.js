@@ -36,7 +36,7 @@ Model.getProducts = function() {
 	})
 }
 
-Model.getProduct = function(pid) { 
+Model.getProduct = function(pid) {
 	return new Promise((resolve, reject) => {
 		let product = Model.products.find((product) => product.id == pid)
 		if (product === undefined) {
