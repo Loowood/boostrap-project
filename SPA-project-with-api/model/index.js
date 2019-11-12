@@ -1,141 +1,15 @@
 var Model = {};
-class User {
-	constructor (name, surname, email, birth, address, password) {
-		this.name = name;
-		this.surname = surname;
-		this.email = email;
-		this.birth = birth;
-		this.address = address;
-		this.password = password;
-		this.shoppingCart = new ShoppingCart();
-		this.userOrders = [];
-		this.id = Date.now();
-	}
-
-	getOrdersTotal() {
-		let total = 0;
-		this.userOrders.forEach( x => total += parseFloat(x.total) );
-		return total;
-	}
-
-
-}
-
-Model.getShoppingCart = function() {
-	return new Promise( function (resolve, reject) {
-		setTimeout( function() {
-			resolve(Model.currentUser.shoppingCart);
-		}, 500);
-	})
-}
-
-Model.currentUser = null;
-
-
-class ShoppingCart {
-	constructor() {
-		this.subTotal = 0;
-		this.total = 0;
-		this.tax = 0;
-		this.items = [];
-	}
-	empty() {
-		this.subtotal = 0;
-		this.total = 0;
-		this.tax = 0;
-		this.items = [];
-	}
-	addItem(product) {
-		var self = this;
-		return new Promise(function (resolve, reject) {
-			setTimeout(function () {
-				self.items.forEach( item => {
-					if (item.product == product) {
-						item.addOne();
-					}
-				});
-				var item = new Item(null, 1, product.price, product);
-				self.items.push(item);
-				self.update();
-				resolve();
-			}, 500);
-		})
-	}
-
-	updateSubTotal() {
-		this.subtotal = 0
-		this.items.forEach( (item) => {
-			this.subtotal = this.subtotal + item.total
-		})
-		this.subtotal = Math.round(this.subtotal * 100) / 100;
-	}
-
-	updateTotal() {
-		this.total = this.subtotal + this.tax
-	}
-	updateTax() {
-		this.tax = 0.20 * this.subTotal
-	}
-
-	update() {
-		this.updateSubTotal()
-		this.updateTax()
-		this.updateTotal()
-	}
-}
-class Product {
-	constructor (name, description, price, url) {
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.url = url;
-	}
-}
-class Item {
-	constructor (order, qty, price, product) {
-		this.order = order;
-		this.qty = qty;
-		this.price = price;
-		this.updateTotal()
-		this.product = product;
-	}
-	addOne() {
-		this.qty++;
-		this.updateTotal()
-	}
-	updateTotal() {
-		this.total = this.qty * this.price
-	}
-	removeOne() {
-		this.qty--
-		this.updateTotal()
-	}
-	changeQty(qty) {
-		this.qty = qty
-		this.updateTotal()
-	}
-}
-class Order {
-	constructor (number, date, address, subtotal, tax, total, cardHolder, cardNumber, items) {
-		this.number = number;
-		this.date = date;
-		this.address = address;
-		this.subtotal = subtotal;
-		this.tax = tax;
-		this.total = total;
-		this.cardHolder = cardHolder;
-		this.cardNumber = cardNumber;
-		this.orderItems = items;
-	}
-}
-
-
-// === Initialisation
-// Users
+const User = require('./User')
+const ShoppingCart = require('./ShoppingCart')
+const Product = require('./Product')
+const Item = require('./Item')
+const Order = require('./Order')
+// initialisation
+// User
 Model.users = [
 	new User("John", "Doe", "example@xyz.com", "08-05-1990", "123 Sesame Street", "azerty123"),
 	new User("H@xor", "TheHacker", "haxor@gmail.com", "01-01-2001", "Antarctica", "youwillneverguess")
-];
+]
 // Products
 Model.products = [
 	new Product("Internet", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In enim ligula, fringilla at scelerisque sit amet, tempus at risus. Sed ac sapien auctor, cursus nunc et, varius sapien. Morbi pretium interdum augue, ac vestibulum diam eleifend in. Curabitur at iaculis turpis. Nulla dapibus elit tincidunt lorem gravida, at laoreet ipsum pretium. Nam pretium elit convallis feugiat convallis.", 10, "/hatshop/images/InternetHat.jpg"),
@@ -146,20 +20,6 @@ Model.products = [
 	new Product("Holmes", "Nulla auctor lectus vulputate fermentum commodo. Mauris accumsan eu justo eu maximus. Etiam vitae erat sit amet est egestas tempor. Integer imperdiet luctus diam et pellentesque. Sed pretium quam ex, ac tristique neque porta eu.", 40, "/hatshop/images/HolmesHat.jpg")
 ]
 
-//Order number, date, address, subtotal, tax, total, cardHolder, cardNumber, items
-
-
-
-
-Model.getProducts = function(){
-	return new Promise(function (resolve, reject) {
-		setTimeout( function() {
-			resolve(Model.products);
-		}, 500);
-	})
-}
-
-
 Model.getUsers = function(){
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
@@ -167,6 +27,15 @@ Model.getUsers = function(){
 		}, 1000);
 	})
 };
+
+Model.getProducts = function() {
+	return new Promise(function (resolve, reject) {
+		setTimeout(function () {
+			resolve(Model.products);
+		}, 500);
+	})
+}
+
 Model.addUser = function(user) {
 	return new Promise(function (resolve, reject) {
 		setTimeout(function () {
@@ -175,6 +44,7 @@ Model.addUser = function(user) {
 		}, 2000);
 	})
 };
+
 Model.addProductToShoppingCart = function(product) {
 	return new Promise(function (resolve, reject) {
 		if (Model.currentUser) {
@@ -243,3 +113,5 @@ Model.signUp = function(userInfo){
 		}
 	})
 }
+
+module.exports = Model;
