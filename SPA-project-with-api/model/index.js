@@ -20,11 +20,19 @@ Model.products = [
 	new Product(6, "Holmes", "Nulla auctor lectus vulputate fermentum commodo. Mauris accumsan eu justo eu maximus. Etiam vitae erat sit amet est egestas tempor. Integer imperdiet luctus diam et pellentesque. Sed pretium quam ex, ac tristique neque porta eu.", 40, "/hatshop/images/HolmesHat.jpg")
 ]
 
-Model.getUsers = function(){
+Model.getUserProfile = function(userId){
 	return new Promise(function (resolve, reject) {
-		setTimeout(function () {
-			resolve(Model.users);
-		}, 1000);
+		let user = Model.users.find(user => user.id == userId)
+		if (user === undefined) {
+			reject({"error":"The user doesn't exist"})
+		}
+		let profile = {}
+		profile.name = user.name
+		profile.surname = user.surname
+		profile.email = user.email
+		profile.birth = user.birth
+		profile.address = user.address
+		resolve(profile)
 	})
 };
 
@@ -45,12 +53,16 @@ Model.getProduct = function(pid) {
 		resolve(product)
 	})
 }
-Model.addUser = function(user) {
+Model.signUpUser = function(name, surname, email, birth, address, password) {
 	return new Promise(function (resolve, reject) {
-		setTimeout(function () {
-			Model.users.push(user);
-			resolve("User added");
-		}, 2000);
+		let findUser = Model.users.find(user => user.email == email)
+		if (findUser !== undefined) {
+			reject({"error":"the user already exists"})
+		}
+		let userId = Model.users[Model.users.length -1].id + 1
+		let users = new User(userId, name, surname, email, birth, address, password)
+		Model.users.push(users)
+		resolve({"id":userId})
 	})
 };
 

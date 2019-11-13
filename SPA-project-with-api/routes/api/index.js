@@ -12,4 +12,6 @@ router.post('/users/:uid/cart/items/:pid', users.addProductToShoppingCart)
 router.delete('/users/:uid/cart/items/:pid', users.deleteProductToShoppingCart)
 router.delete('/users/:uid/cart/items/:pid/decrease', users.decreaseQtyProductToShoppingCart)
 router.post('/users/signin', users.signInUser)
+router.post('/users/signup', users.signUpUser)
+router.get('/users/:uid/', users.getUserProfile)
 module.exports = router;

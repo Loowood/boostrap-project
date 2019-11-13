@@ -59,4 +59,29 @@ users.signInUser = function(req, res) {
 		res.status(500).json(error)
 	})
 }
+
+users.signUpUser = function(req, res) {
+	Model.signUpUser(
+		req.body.name,
+		req.body.surname,
+		req.body.email,
+		req.body.birth,
+		req.body.address,
+		req.body.password
+	).then(user => {
+		res.json(user)
+	}).catch(error => {
+		console.error(error)
+		res.status(500).json(error)
+	})
+}
+
+users.getUserProfile = function(req, res) {
+	Model.getUserProfile(req.params.uid).then(profile => {
+		res.json(profile)
+	}).catch(error => {
+		console.error(error)
+		res.status(500).json(error)
+	})
+}
 module.exports = users
