@@ -221,6 +221,22 @@ Model.addProductToShoppingCart = function(uid, product) {
     })
 }
 
+Model.signUp = function (username, surname, email, birthdate, address, password){
+	return new Promise(function (resolve, reject) {
+		$.ajax({
+			url: '/api/users/signup',
+			type: 'POST',
+			data: {'name':username,'surname':surname,'email':email,'birth':birthdate,'address':address,'password':password}
+		})
+			.done((data) => {
+				resolve(data);
+			})
+			.fail((error) => {
+				reject(error);
+			})
+	})
+}
+
 Model.checkUser = function (usrEmail, usrPassword) {
 	var found = null;
 	for(user of Model.users){
@@ -240,26 +256,4 @@ Model.checkUser = function (usrEmail, usrPassword) {
 	})
 }
 
-Model.signUp = function(userInfo){
-	empty = 0;
-	duplicateEmail = false;
-	passwordMatch = false;
-	Object.keys(userInfo).forEach(function(key){
-		if(userInfo[key] == "" || userInfo[key] == null){
-			empty += 1;
-		}
-	})
-	if (Model.users.map(x => x.email).includes(userInfo.email)) {
-		duplicateEmail = true;
-	}
-	if (userInfo.password != userInfo.confirmpassword){
-		passwordMatch = true;
-	}
-	return new Promise(function (resolve,reject){
-		if(empty > 0 || duplicateEmail  || passwordMatch){
-			reject();
-		}else{
-			resolve();
-		}
-	})
-}
+
