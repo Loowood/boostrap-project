@@ -182,4 +182,14 @@ Model.getUserShoppingCart = function(userId) {
 	})
 }
 
+Model.getUserOrder = function(userId) {
+	return new Promise(function (resolve, reject){
+		let user = Model.users.find((user) => user.id == userId)
+		if (user === undefined){
+			reject({"error":"No user with this ID"})
+		}
+		resolve(user.order);
+	})
+}
+
 module.exports = Model;
