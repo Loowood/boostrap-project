@@ -84,4 +84,14 @@ users.getUserProfile = function(req, res) {
 		res.status(500).json(error)
 	})
 }
+
+users.getUserOrder = function(req, res) {
+	Model.getUserOrder(req.params.uid)
+		.then((order) => {
+			res.json(order)
+		}).catch((error) => {
+		console.error(error);
+		res.status(500).json(error)
+	})
+}
 module.exports = users
