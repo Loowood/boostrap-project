@@ -240,4 +240,19 @@ Model.getUserOrder = function(userId, orderId) {
 		resolve(order)
 	})
 }
+
+Model.getUserOrderItems = function(userId, orderId) {
+	return new Promise(function (resolve, reject) {
+		let userIndex = Model.users.indexOf(Model.users.find(user => user.id == userId))
+		if (userIndex === -1) {
+			reject({"error":"user doesn't exist"})
+		}
+		let orderIndex = Model.users[userIndex].orders.indexOf(Model.users[userIndex].orders.find(order => order.id == orderId))
+		if (orderIndex === -1) {
+			reject({"error":"the order doesn't exist"})
+		}
+		resolve(Model.users[userIndex].orders[orderIndex].items)
+	})
+}
+
 module.exports = Model;
