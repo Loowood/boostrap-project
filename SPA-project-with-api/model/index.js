@@ -226,4 +226,18 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 		resolve({"success":"Order created"})
 	})
 }
+
+Model.getUserOrder = function(userId, orderId) {
+	return new Promise(function (resolve, reject) {
+		let userIndex = Model.users.indexOf(Model.users.find(user => user.id == userId))
+		if (userIndex === -1) {
+			reject({"error":"user doesn't exist"})
+		}
+		let order = Model.users[userIndex].orders.find(order => order.id == orderId)
+		if (order === undefined) {
+			reject({"error":"the order doesn't exist"})
+		}
+		resolve(order)
+	})
+}
 module.exports = Model;

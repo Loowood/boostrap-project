@@ -109,4 +109,13 @@ users.newOrder = function(req, res) {
 		res.status(500).json(error)
 	})
 }
+
+users.getUserOrder = function(req, res) {
+	Model.getUserOrder(req.params.uid, req.params.number).then(order => {
+		res.json(order)
+	}).catch(error => {
+		console.error(error)
+		res.status(500).json(error)
+	})
+}
 module.exports = users
