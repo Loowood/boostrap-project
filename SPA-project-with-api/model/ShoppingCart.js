@@ -5,7 +5,7 @@ class ShoppingCart {
 		this.tax = 0;
 		this.items = [];
 	}
-	empty() {
+	clean() {
 		this.subtotal = 0;
 		this.total = 0;
 		this.tax = 0;
@@ -48,6 +48,7 @@ class ShoppingCart {
 		this.updateTax()
 		this.updateTotal()
 	}
+
 }
 
 module.exports = ShoppingCart

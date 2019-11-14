@@ -14,4 +14,5 @@ router.post('/users/signin', users.signInUser)
 router.post('/users/signup', users.signUpUser)
 router.get('/users/:uid/', users.getUserProfile)
 router.get('/users/:uid/orders', users.getUserOrder)
+router.post('/users/:uid/orders', users.newOrder)
 module.exports = router;

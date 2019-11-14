@@ -1,6 +1,6 @@
 class Item {
-	constructor (order, qty, price, product) {
-		this.order = order;
+	constructor (orderId, qty, price, product) {
+		this.orderId = orderId;
 		this.qty = qty;
 		this.price = price;
 		this.updateTotal()

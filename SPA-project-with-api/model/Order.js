@@ -1,6 +1,6 @@
 class Order {
-	constructor (number, date, address, subtotal, tax, total, cardHolder, cardNumber, items) {
-		this.number = number;
+	constructor (id, date, address, subtotal, tax, total, cardHolder, cardNumber, items) {
+		this.id = id;
 		this.date = date;
 		this.address = address;
 		this.subtotal = subtotal;
@@ -10,6 +10,7 @@ class Order {
 		this.cardNumber = cardNumber;
 		this.orderItems = items;
 	}
+
 }
 
 

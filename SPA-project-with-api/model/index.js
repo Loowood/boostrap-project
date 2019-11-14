@@ -192,4 +192,37 @@ Model.getUserOrder = function(userId) {
 	})
 }
 
+Model.newOrder = function(userId, cardHolder, cardNumber) {
+	return new Promise(function (resolve, reject) {
+		let userIndex = Model.users.indexOf(Model.users.find((user) => user.id == userId))
+		if (userIndex === -1) {
+			reject({"error":"the user doesn't exist"})
+		}
+		let orderId = 0
+		if (Model.users[userIndex].orders.length === 0) {
+			orderId = 1
+		} else {
+			orderId = Model.users[userIndex].orders[Model.users[userIndex].orders.length - 1].id +1
+		}
+		let shoppingCart = Model.users[userIndex].shoppingCart
+		shoppingCart.items = shoppingCart.items.map(item => {
+			item.orderId = orderId
+			return item
+		})
+		let order = new Order(
+			orderId,
+			Date.now(),
+			Model.users[userIndex].address,
+			shoppingCart.subtotal,
+			shoppingCart.tax,
+			shoppingCart.total,
+			cardHolder,
+			cardNumber,
+			shoppingCart.items
+		)
+		Model.users[userIndex].orders.push(order)
+		Model.users[userIndex].shoppingCart.clean()
+		resolve({"success":"Order created"})
+	})
+}
 module.exports = Model;

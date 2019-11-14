@@ -1,7 +1,11 @@
 const Model = require('../../model')
 var users = {}
 users.getUserShoppingCart = function(req, res) {
-	Model.getUserShoppingCart(req.params.uid)
+	Model.getUserShoppingCart(
+		req.params.uid,
+		req.body.cardHolder,
+		req.body.cardNumber
+	)
 		.then((shoppingCart) => {
 			res.json(shoppingCart)
 		}).catch((error) => {
@@ -91,6 +95,17 @@ users.getUserOrder = function(req, res) {
 			res.json(order)
 		}).catch((error) => {
 		console.error(error);
+		res.status(500).json(error)
+	})
+}
+users.newOrder = function(req, res) {
+	Model.newOrder(
+		req.params.uid,
+		req.body.cardHolder,
+		req.body.cardNumber
+	).then(message => {
+		res.json(message)
+	}).catch(error => {
 		res.status(500).json(error)
 	})
 }

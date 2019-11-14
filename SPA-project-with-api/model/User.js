@@ -8,7 +8,7 @@ class User {
 		this.address = address;
 		this.password = password;
 		this.shoppingCart = new ShoppingCart();
-		this.userOrders = [];
+		this.orders = [];
 		this.id = id;
 	}
 
