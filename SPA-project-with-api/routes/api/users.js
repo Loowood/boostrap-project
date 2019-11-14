@@ -89,8 +89,8 @@ users.getUserProfile = function(req, res) {
 	})
 }
 
-users.getUserOrder = function(req, res) {
-	Model.getUserOrder(req.params.uid)
+users.getUserOrders = function(req, res) {
+	Model.getUserOrders(req.params.uid)
 		.then((order) => {
 			res.json(order)
 		}).catch((error) => {

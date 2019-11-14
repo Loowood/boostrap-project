@@ -13,6 +13,6 @@ router.delete('/users/:uid/cart/items/:pid/decrease', users.decreaseQtyProductTo
 router.post('/users/signin', users.signInUser)
 router.post('/users/signup', users.signUpUser)
 router.get('/users/:uid/', users.getUserProfile)
-router.get('/users/:uid/orders', users.getUserOrder)
+router.get('/users/:uid/orders', users.getUserOrders)
 router.post('/users/:uid/orders', users.newOrder)
 module.exports = router;

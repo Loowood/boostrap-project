@@ -183,7 +183,7 @@ Model.getUserShoppingCart = function(userId) {
 	})
 }
 
-Model.getUserOrder = function(userId) {
+Model.getUserOrders = function(userId) {
 	return new Promise(function (resolve, reject){
 		let user = Model.users.find((user) => user.id == userId)
 		if (user === undefined){
