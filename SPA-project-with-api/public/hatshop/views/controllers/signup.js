@@ -13,9 +13,7 @@ Controller.controllers.signup.signUp = function(event){
     userInfo.address = $('#exampleInputAddress1').val();
     userInfo.confirmpassword = $('#exampleInputPassword2').val();
     userInfo.birthdate = $('#exampleInputDate1').val();
-        Model.signUp(userInfo).then(function(){
-            let newUser = new User(userInfo.username, userInfo.surname, userInfo.email,userInfo.birthdate,userInfo.address,userInfo.password);
-            Model.addUser(newUser);
+    Model.signUp(userInfo.username, userInfo.surname, userInfo.email, userInfo.birthdate, userInfo.address, userInfo.password).then(function(data){
             Controller.router.go("signin");
             View.renderer.signin.render({})
         }).catch(function(){

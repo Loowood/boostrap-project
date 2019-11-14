@@ -134,6 +134,7 @@ Model.decreaseQtyProductToShoppingCart = function(userId, productId){
 }
 
 Model.signInUser = function (userEmail, userPassword) {
+	console.log(userEmail, userPassword);
 	return new Promise(function (resolve, reject){
 		let userIndex = Model.users.indexOf(Model.users.find(user => user.email == userEmail))
 		if (userIndex !== -1) {

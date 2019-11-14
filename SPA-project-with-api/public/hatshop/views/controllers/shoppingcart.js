@@ -1,8 +1,8 @@
 Controller.controllers.shoppingcart = {};
 Controller.controllers.shoppingcart.refresh = function (matching) {
 	var context = {}
-	if (Model.currentUser) {
-		Model.getShoppingCart(Model.currentUser.id).then(function (shoppingCart) {
+	if (Model.currentId) {
+		Model.getShoppingCart(Model.currentId).then(function (shoppingCart) {
 				context.shoppingCart = shoppingCart
 				View.renderer.shoppingcart.render(context)
 			})
@@ -15,8 +15,8 @@ Controller.controllers.shoppingcart.redirectToSignIn = function() {
 	View.renderer.signin.render({})
 }
 Controller.controllers.shoppingcart.addProductToShoppingCart = function (product) {
-	if (Model.currentUser) {
-		Model.addProductToShoppingCart(Model.currentUser.id, product);
+	if (Model.currentId) {
+		Model.addProductToShoppingCart(Model.currentId, product);
 	} else {
 		Controller.controllers.shoppingcart.redirectToSignIn()
 	}
