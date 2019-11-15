@@ -189,7 +189,7 @@ Model.getUserOrders = function(userId) {
 		if (user === undefined){
 			reject({"error":"No user with this ID"})
 		}
-		resolve(user.order);
+		resolve(user.orders);
 	})
 }
 

@@ -1,7 +1,7 @@
 {{#>base title="Purchase"}}
     {{#*inline "main-block"}}
         {{#if userConnected}}
-            {{> purchase-partial user=user total=total}}
+            {{> purchase-partial user=user total=total orders=orders}}
         {{else}}
             <h1> You should be connected </h1>
         {{/if}}

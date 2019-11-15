@@ -40,7 +40,7 @@ class ShoppingCart {
 		this.total = this.subtotal + this.tax
 	}
 	updateTax() {
-		this.tax = 0.20 * this.subTotal
+		this.tax = 0.20 * this.subtotal
 	}
 
 	update() {
