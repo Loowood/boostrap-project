@@ -82,6 +82,9 @@ users.signUpUser = function(req, res) {
 
 users.getUserProfile = function(req, res) {
 	Model.getUserProfile(req.params.uid).then(profile => {
+		if (profile == undefined) {
+			res.status(400).json({"error":"tthe user id dosen't exist"})
+		}
 		res.json(profile)
 	}).catch(error => {
 		console.error(error)

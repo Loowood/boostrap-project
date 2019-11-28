@@ -1,27 +1,36 @@
-class Item {
-	constructor (orderId, qty, price, product) {
-		this.orderId = orderId;
-		this.qty = qty;
-		this.price = price;
-		this.updateTotal()
-		this.product = product;
-	}
-	addOne() {
-		this.qty++;
-		this.updateTotal()
-	}
-	updateTotal() {
-		this.total = this.qty * this.price
-	}
-	removeOne() {
-		this.qty--
-		this.updateTotal()
-	}
-	changeQty(qty) {
-		this.qty = qty
-		this.updateTotal()
-	}
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+const Product = require('./Product')
+const Order = require('./Order')
+var schema = Schema({
+	orderId: {type: Schema.Types.ObjectId, ref: Order},
+	qty: {type: Number, required: true, min: 1},
+	price: {type: Number, required: true},
+	product: {type: Schema.Types.ObjectID, ref: Product, required: true},
+	total: {type: Number, required: true}
+})
+schema.methods.addOne = function() {
+	this.qty++;
+	return this.save()
 }
 
+schema.methods.updateTotal = function() {
+	this.total = this.qty * this.price
+}
 
-module.exports = Item
+schema.methods.removeOne = function() {
+	this.qty--
+	return this.save()
+}
+
+schema.pre('save', function (next) {
+	this.updateTotal()
+	return next()
+})
+
+schema.pre('update', function (next) {
+	this.updateTotal()
+	return next()
+
+})
+module.exports = mongoose.model('item', schema)

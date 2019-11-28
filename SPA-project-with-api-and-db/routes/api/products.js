@@ -13,6 +13,9 @@ product.getProducts = function(req, res) {
 product.getProduct = function(req, res) {
 	Model.getProduct(req.params.pid)
 		.then((product) => {
+			if (product == undefined) {
+				res.status(400).send({"error":"no product with this ID"})
+			}
 			res.json(product)
 		}).catch((eror) => {
 			console.error(error);
