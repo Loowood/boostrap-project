@@ -7,9 +7,9 @@ var schema = Schema({
 	name: {type:String, required: true},
 	surname: {type:String, required: true},
 	email: {type: String, required: true, unique: true, trim: true, lowercase: true, },
-	birth: {type: Date, required: true},
+	birth: {type: Date, required: true, max: Date.now},
 	address: {type: String, required: true},
-	password: {type: String, required: true, select: false},
+	password: {type: String, required: true},
 	orders: [{type: Schema.Types.ObjectID, ref: Order}],
 	shoppingCart: {type: Schema.Types.ObjectID, ref: ShoppingCart, required: true}
 })
@@ -22,29 +22,25 @@ schema.methods.getOrdersTotal = function() {
 
 
 schema.methods.validPassword = function(password) {
-	return bcrypt.compareSync(password, this.password)
+	return bcrypt.compare(password, this.password)
 }
 
-schema.methods.generateHashPassword = function (next) {
-	var user = this
-	if (!user.isModified('password')) return next();
-	bcrypt.genSalt(42, function (err, salt) {
-		if (err) return next(err);
-		bcrypt.hash(user.password, salt, function (err, hash) {
-			if (err) return next(err);
-			user.password = hash;
-			next()
-		})
-	})
-}
 
 schema.pre('save', function (next) {
-	this.generateHashPassword(next)
+	let user = this
+	if (!user.isModified('password')) {
+		return next();
+	}
+	bcrypt.genSalt(5).then(function (salt) {
+		bcrypt.hash(user.password, salt).then(function (hash) {
+			user.password = hash
+			return next()
+		}).catch(function (error) {
+			return next(error)
+		})
+	}).catch(function (error) {
+		return next(error)
+	})
 })
-
-schema.pre('update', function (next) {
-	this.generateHashPassword(next)
-})
-
 
 module.exports = mongoose.model('user', schema)

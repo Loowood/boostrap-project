@@ -34,7 +34,7 @@ Model.signUpUser = function(name, surname, email, birth, address, password){
 				"password": password,
 				"shoppingCart": shoppingCart
 			}).save().then(function (user) {
-				resolve({"_id": user["_id"]})
+				resolve({"id":user["_id"]})
 			}).catch(function (error) {
 				reject(error)
 			})
@@ -136,14 +136,18 @@ Model.decreaseQtyProductToShoppingCart = function(userId, productId) {
 Model.signInUser = function (userEmail, userPassword) {
 	return new Promise((resolve, reject) => {
 		User.findOne({"email": userEmail}).then((user) => {
-			if (user != undefined) {
+			if (user == undefined) {
 				reject({"error": "The username or password is incorrect"})
 			}
-			if (user.validPassword(userPassword)) {
-				resolve({"id":user["_id"]})
-			} else {
-				reject({"error":"The username or password is incorrect"})
-			}
+			user.validPassword(userPassword).then(function (result) {
+				if (result == true) {
+					resolve({"id":user["_id"]})
+				} else {
+					reject({"error":"The username or password is incorrect"})
+				}
+			}).catch(function (error) {
+				reject(error)
+			})
 		}).catch(function (error) {
 			reject(error)
 		})
@@ -251,4 +255,17 @@ Model.getUserOrderItems = function(userId, orderId) {
 	})
 }
 
+Model.getUserProfile = function(userId) {
+	return new Promise((resolve, reject) => {
+		User.findById(userId).then(function (user) {
+			if (user != undefined) {
+				resolve(user)
+			} else {
+				reject({"error":"user doesn't exist"})
+			}
+		}).catch(function (error) {
+			reject(error)
+		})
+	})
+}
 module.exports = Model;

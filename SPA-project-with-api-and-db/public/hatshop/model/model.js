@@ -23,17 +23,17 @@ class User {
 
 Model.getShoppingCart = function(uid) {
 	return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: "/api/users/"+uid+"/cart",
-            method: "GET"
-        })
-        .done( (data) => {
-            resolve(data);
-        })
-        .fail( (error) => {
-            reject(error);
-        })
-    });
+		$.ajax({
+			url: "/api/users/"+uid+"/cart",
+			method: "GET"
+		})
+		.done( (data) => {
+			resolve(data);
+		})
+		.fail( (error) => {
+			reject(error);
+		})
+	});
 }
 
 Model.currentId = null;
@@ -161,33 +161,33 @@ Model.products = [
 Model.getProducts = function(){
 
 	return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: "/api/products",
-            method: "GET"
-        })
-        .done( (data) => {
-            resolve(data);
-        })
-        .fail( (error) => {
-            reject(error);
-        })
-    });
+		$.ajax({
+			url: "/api/products",
+			method: "GET"
+		})
+		.done( (data) => {
+			resolve(data);
+		})
+		.fail( (error) => {
+			reject(error);
+		})
+	});
 
 }
 
 Model.getProduct = function(id) {
 	return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: "/api/product/"+id,
-            method: "GET"
-        })
-        .done( (data) => {
-            resolve(data);
-        })
-        .fail( (error) => {
-            reject(error);
-        })
-    });
+		$.ajax({
+			url: "/api/product/"+id,
+			method: "GET"
+		})
+		.done( (data) => {
+			resolve(data);
+		})
+		.fail( (error) => {
+			reject(error);
+		})
+	});
 }
 
 Model.getUsers = function(){
@@ -207,35 +207,35 @@ Model.addUser = function(user) {
 };
 Model.addProductToShoppingCart = function(uid, product) {
 	return new Promise( function (resolve, reject) {
-        $.ajax({
-            url: '/api/users/'+uid+'/cart/items/'+product.id,
-            method: 'POST',
-            contents: product
-        })
-        .done( (data) => {
-            resolve(data);
-        })
-        .fail( (error) => {
-            reject(error);
-        })
-    })
+		$.ajax({
+			url: '/api/users/'+uid+'/cart/items/'+product.id,
+			method: 'POST',
+			contents: product
+		})
+		.done( (data) => {
+			resolve(data);
+		})
+		.fail( (error) => {
+			reject(error);
+		})
+	})
 }
 
 Model.signInUser = function (usrEmail, usrPassword) {
 	return new Promise( function (resolve, reject) {
-        $.ajax({
-            url: '/api/users/signin',
-            type: 'POST',
-            data: {'email': usrEmail, 'password': usrPassword}
-        })
-        .done( (data) => {
+		$.ajax({
+			url: '/api/users/signin',
+			type: 'POST',
+			data: {'email': usrEmail, 'password': usrPassword}
+		})
+		.done( (data) => {
 			console.log(data);
-            resolve(data);
-        })
-        .fail( (error) => {
-            reject(error);
-        })
-    })
+			resolve(data);
+		})
+		.fail( (error) => {
+			reject(error);
+		})
+	})
 }
 
 Model.getUserProfile = function () {
@@ -254,36 +254,36 @@ Model.getUserProfile = function () {
 }
 
 Model.addOrder = function(orderToAdd) {
-    return new Promise ( function (resolve, reject) {
-        $.ajax({
-            url: '/api/users/'+ Model.currentId +'/orders',
-            type: 'POST',
-            data: {'cardHolder': 'Card Holder Example', 'cardNumber': "Card Number Example"}
-        })
-        .done( (data) => {
-            resolve(data);
-        })
-        .fail( (data) => {
-            reject(data);
-        })
-    })
+	return new Promise ( function (resolve, reject) {
+		$.ajax({
+			url: '/api/users/'+ Model.currentId +'/orders',
+			type: 'POST',
+			data: {'cardHolder': 'Card Holder Example', 'cardNumber': "Card Number Example"}
+		})
+		.done( (data) => {
+			resolve(data);
+		})
+		.fail( (data) => {
+			reject(data);
+		})
+	})
 }
 
 Model.getUserOrders = function() {
-    return new Promise( function (resolve, reject) {
-        $.ajax({
-            url: '/api/users/'+ Model.currentId +'/orders',
-            type: 'GET'
-        })
-        .done( (data) => {
+	return new Promise( function (resolve, reject) {
+		$.ajax({
+			url: '/api/users/'+ Model.currentId +'/orders',
+			type: 'GET'
+		})
+		.done( (data) => {
 			console.log("success getting user orders", data);
-            resolve(data);
-        })
-        .fail( (data) => {
-            console.log("error getting user orders", data);
-            reject(data);
-        })
-    })
+			resolve(data);
+		})
+		.fail( (data) => {
+			console.log("error getting user orders", data);
+			reject(data);
+		})
+	})
 }
 
 Model.getUserOrder = function (number) {
