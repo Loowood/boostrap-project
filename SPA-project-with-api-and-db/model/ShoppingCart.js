@@ -9,7 +9,7 @@ var schema = Schema({
 })
 
 schema.methods.clean = function () {
-	this.subtotal = 0;
+	this.subTotal = 0;
 	this.total = 0;
 	this.tax = 0;
 	this.items = [];
@@ -88,7 +88,7 @@ schema.pre('save', function (next) {
 	})
 	this.subTotal = Math.round(this.subTotal * 100) / 100;
 	this.tax = 0.20 * this.subTotal
-	this.total = this.subtotal + this.tax
+	this.total = this.subTotal + this.tax
 	return next()
 })
 module.exports = mongoose.model('shoppingcart', schema)
