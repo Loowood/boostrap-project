@@ -208,7 +208,7 @@ Model.addUser = function(user) {
 Model.addProductToShoppingCart = function(uid, product) {
 	return new Promise( function (resolve, reject) {
 		$.ajax({
-			url: '/api/users/'+uid+'/cart/items/'+product.id,
+			url: '/api/users/'+uid+'/cart/items/'+product["_id"],
 			method: 'POST',
 			contents: product
 		})

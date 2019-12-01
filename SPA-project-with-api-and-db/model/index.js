@@ -46,11 +46,11 @@ Model.signUpUser = function(name, surname, email, birth, address, password){
 
 Model.addProductToShoppingCart = function(userId, productId) {
 	return new Promise((resolve, reject) => {
-		User.findById(userId).populate(path:"shoppingCart").then(function (user) {
+		User.findById(userId).populate({path:"shoppingCart"}).then(function (user) {
 			if (user != undefined) {
 				Product.findById(productId).then(function (product) {
 					if (product != undefined) {
-						user.shopingCart.addItem(product).then(function (shoppingCart) {
+						user.shoppingCart.addItem(product).then(function (shoppingCart) {
 							shoppingCart.save().then(function () {
 								resolve({"success": "item added"})
 							}).catch(function (error) {
@@ -62,6 +62,9 @@ Model.addProductToShoppingCart = function(userId, productId) {
 					} else {
 						reject({"error":"The product Id doesn't exist"})
 					}
+				}).catch(function (error) {
+					reject(error)
+
 				})
 			} else {
 				reject({"error":"User doesn't exist"})
@@ -238,7 +241,7 @@ Model.getUserOrder = function(userId, orderId) {
 
 Model.getUserOrderItems = function(userId, orderId) {
 	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate(path: Order).then(function (user) {
+		User.findById(userId).populate({path: "Order"}).then(function (user) {
 			if (user != undefined) {
 				let order = user.orders.find(order => order["_id"] === orderId)
 				if (order != undefined) {

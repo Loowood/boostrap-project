@@ -44,27 +44,6 @@ schema.methods.addItem = function(product) {
 	})
 }
 
-schema.methods.updateSubTotal = function() {
-	this.subtotal = 0
-	this.items.forEach((item) => {
-		this.subtotal = this.subtotal + item.total
-	})
-	this.subtotal = Math.round(this.subtotal * 100) / 100;
-}
-
-schema.methods.updateTotal = function () {
-	this.total = this.subtotal + this.tax
-}
-schema.methods.updateTax = function() {
-	this.tax = 0.20 * this.subtotal
-}
-schema.methods.updateShopingCart = function() {
-	this.updateSubTotal()
-	this.updateTax()
-	this.updateTotal()
-}
-
-
 schema.methods.deleteItemToShoppingCart = function(product) {
 	return new Promise((resolve, reject) => {
 		if (this.items.find(item => item.product["_id"] === product["_id"]) === undefined) {
@@ -96,11 +75,13 @@ schema.methods.decreaseQtyProductShoppingCart = function(product) {
 	})
 }
 schema.pre('save', function (next) {
-	this.updateShopingCart()
-	return next()
-})
-schema.pre('update', function (next) {
-	this.updateShopingCart()
+	this.subtotal = 0
+	this.items.forEach((item) => {
+		this.subtotal = this.subtotal + item.total
+	})
+	this.subtotal = Math.round(this.subtotal * 100) / 100;
+	this.tax = 0.20 * this.subtotal
+	this.total = this.subtotal + this.tax
 	return next()
 })
 module.exports = mongoose.model('shoppingcart', schema)

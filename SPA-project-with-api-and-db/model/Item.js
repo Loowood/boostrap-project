@@ -7,15 +7,11 @@ var schema = Schema({
 	qty: {type: Number, required: true, min: 1},
 	price: {type: Number, required: true},
 	product: {type: Schema.Types.ObjectID, ref: Product, required: true},
-	total: {type: Number, required: true}
+	total: {type: Number, required: true, default: 0}
 })
 schema.methods.addOne = function() {
 	this.qty++;
 	return this.save()
-}
-
-schema.methods.updateTotal = function() {
-	this.total = this.qty * this.price
 }
 
 schema.methods.removeOne = function() {
@@ -24,13 +20,9 @@ schema.methods.removeOne = function() {
 }
 
 schema.pre('save', function (next) {
-	this.updateTotal()
+	this.total = this.qty * this.price
 	return next()
 })
 
-schema.pre('update', function (next) {
-	this.updateTotal()
-	return next()
 
-})
 module.exports = mongoose.model('item', schema)
