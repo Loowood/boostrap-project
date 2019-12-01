@@ -7,7 +7,7 @@ var schema = Schema({
 	subTotal: {type: Number, required: true},
 	tax: {type: Number, required: true},
 	total: {type: Number, required: true},
-	cardHolder: {type: Number, required: true},
+	cardHolder: {type: String, required: true},
 	cardNumber: {type: Number, required: true},
 	orderItems: [{type: Schema.Types.ObjectID, ref: Item}]
 })
