@@ -46,7 +46,7 @@ Model.signUpUser = function(name, surname, email, birth, address, password){
 
 Model.addProductToShoppingCart = function(userId, productId) {
 	return new Promise((resolve, reject) => {
-		User.findById(userId).populate({path:"shoppingCart"}).then(function (user) {
+		User.findById(userId).populate({path:"shoppingCart", populate:{path:"items"}}).then(function (user) {
 			if (user != undefined) {
 				Product.findById(productId).then(function (product) {
 					if (product != undefined) {
@@ -77,7 +77,7 @@ Model.addProductToShoppingCart = function(userId, productId) {
 
 Model.deleteProductToShoppingCart = function(userId, productId) {
 	return new Promise(function(resolve, reject) {
-		User.findById(productId).populate({path:"shoppingCart"}).then(function (user) {
+		User.findById(productId).populate({path:"shoppingCart", populate: {path: "items"}}).then(function (user) {
 			if (user != undefined) {
 				Product.findById(productId).then(function (product) {
 					if (product != undefined) {
@@ -108,7 +108,7 @@ Model.deleteProductToShoppingCart = function(userId, productId) {
 
 Model.decreaseQtyProductToShoppingCart = function(userId, productId) {
 	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate({path:"shoppingCart"}).then(function (user) {
+		User.findById(userId).populate({path:"shoppingCart", populate:{path: "items"}}).then(function (user) {
 			if (user != undefined) {
 				Product.findById(productId).then(function (product) {
 					if (product != undefined) {
@@ -161,7 +161,7 @@ Model.signInUser = function (userEmail, userPassword) {
 
 Model.getUserShoppingCart = function(userId) {
 	return new Promise((resolve, reject) => {
-		User.findById(userId).populate({path:"shoppingCart"}).then(function (user) {
+		User.findById(userId).populate({path:"shoppingCart", populate:{path: "items", populate: {path: "product"}}}).then(function (user) {
 			if (user != undefined) {
 				resolve(user.shoppingCart)
 			} else {
@@ -176,7 +176,7 @@ Model.getUserShoppingCart = function(userId) {
 
 Model.getUserOrders = function(userId) {
 	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate({path:"orders"}).then(function (user) {
+		User.findById(userId).populate({path:"orders", populate: {path: "items", populate: {path: "product"}}}).then(function (user) {
 			if (user != undefined) {
 				resolve(user.orders)
 			} else {
@@ -190,7 +190,7 @@ Model.getUserOrders = function(userId) {
 
 Model.newOrder = function(userId, cardHolder, cardNumber) {
 	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate({path:"shoppingCart"}).populate({path:"orders"}).then(function (user) {
+		User.findById(userId).populate({path:"shoppingCart", populate: {path: "items"}}).populate({path:"orders"}).then(function (user) {
 			if (user != undefined) {
 				let shoppingCart = user.shoppingCart
 				new Order({
@@ -222,7 +222,7 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 
 Model.getUserOrder = function(userId, orderId) {
 	return new Promise((resolve, reject) => {
-		User.findById(userId).populate({path:"orders"}).then(function (user) {
+		User.findById(userId).populate({path:"orders", populate:{path:"items", populate: {path: "product"}}}).then(function (user) {
 			if (user != undefined) {
 				let order = user.orders.find(order => order["_id"] === orderId)
 				if (order != undefined) {
@@ -241,7 +241,7 @@ Model.getUserOrder = function(userId, orderId) {
 
 Model.getUserOrderItems = function(userId, orderId) {
 	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate({path: "Order"}).then(function (user) {
+		User.findById(userId).populate({path: "Order", populate: {path: "items", populate: {path:"product"}}}).then(function (user) {
 			if (user != undefined) {
 				let order = user.orders.find(order => order["_id"] === orderId)
 				if (order != undefined) {
@@ -264,7 +264,7 @@ Model.getUserOrderItems = function(userId, orderId) {
 
 Model.getUserProfile = function(userId) {
 	return new Promise((resolve, reject) => {
-		User.findById(userId).populate({path:"orders"}).then(function (user) {
+		User.findById(userId).populate({path:"orders", populate: {path:"items", populate: {path: "product"}}}).then(function (user) {
 			if (user != undefined) {
 				resolve(user)
 			} else {

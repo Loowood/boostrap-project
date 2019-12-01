@@ -45,42 +45,49 @@ schema.methods.addItem = function(product) {
 }
 
 schema.methods.deleteItemToShoppingCart = function(product) {
+	let shoppingCart = this
 	return new Promise((resolve, reject) => {
-		if (this.items.find(item => item.product["_id"] === product["_id"]) === undefined) {
+		if (shoppingCart.items.find(item => item.product["_id"] === product["_id"]) === undefined) {
 			reject({"error":"The product is not in the shopping Cart"})
 			return;
 		}
-		this.items = this.items.filter(item => item.product["_id"] === product["_id"])
-		resolve(this)
+		let itemId = shoppingCart.items.find(item => item.product["_id"] === product["_id"])["_id"]
+		shoppingCart.items = shoppingCart.items.filter(item => item.product["_id"] === product["_id"])
+		Item.findByIdAndDelete(itemId).then(function (itemRemoved) {
+			resolve(shoppingCart)
+		}).catch(function (error) {
+			reject(error)
+		})
 	})
 }
 
 schema.methods.decreaseQtyProductShoppingCart = function(product) {
+	let shoppingCart = this
 	return new Promise((resolve, reject) => {
-		let itemIndex = this.items.indexOf(this.items.find(item => item.product["_id"] === product["_id"]))
+		let itemIndex = shoppingCart.items.indexOf(shoppingCart.items.find(item => item.product["_id"] === product["_id"]))
 		if (itemIndex === -1) {
 			reject({"errror":"No item with this product"})
 			return;
 		}
-		let item = this.items[itemIndex]
+		let item = shoppingCart.items[itemIndex]
 		if (item.qty == 1) {
 			reject({"error":"please delete this item"})
 			return;
 		}
 		item.removeOne().then(function (item) {
-			resolve(this)
+			resolve(shoppingCart)
 		}).catch(function (error) {
 			reject(error)
 		})
 	})
 }
 schema.pre('save', function (next) {
-	this.subtotal = 0
+	this.subTotal = 0
 	this.items.forEach((item) => {
-		this.subtotal = this.subtotal + item.total
+		this.subTotal = this.subTotal + item.total
 	})
-	this.subtotal = Math.round(this.subtotal * 100) / 100;
-	this.tax = 0.20 * this.subtotal
+	this.subTotal = Math.round(this.subTotal * 100) / 100;
+	this.tax = 0.20 * this.subTotal
 	this.total = this.subtotal + this.tax
 	return next()
 })
