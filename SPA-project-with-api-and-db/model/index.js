@@ -137,23 +137,33 @@ Model.decreaseQtyProductToShoppingCart = function(userId, productId) {
 }
 
 Model.signInUser = function (userEmail, userPassword) {
+	console.log("Sign In", userEmail, userPassword);
 	return new Promise((resolve, reject) => {
-		User.findOne({"email": userEmail}).populate({path:"orders"}).then((user) => {
-			if (user == undefined) {
-				reject({"error": "The username or password is incorrect"})
-			}
-			user.validPassword(userPassword).then(function (result) {
-				if (result == true) {
-					resolve({"id":user["_id"]})
-				} else {
-					reject({"error":"The username or password is incorrect"})
+		User.findOne({"email": userEmail}).populate({path:"orders"})
+			.then((user) => {
+				console.log("Find One, then", user);
+				if (user == undefined) {
+					console.log("User is undefined");
+					reject({"error": "The username or password is incorrect"})
 				}
-			}).catch(function (error) {
+				user.validPassword(userPassword)
+					.then(function (result) {
+						console.log("Valid Password, then", result);
+						if (result == true) {
+							resolve({"id":user["_id"]})
+						} else {
+							reject({"error":"The username or password is incorrect"})
+						}
+					})
+					.catch(function (error) {
+						console.log("Valid Password, catch", error);
+						reject(error)
+					})
+			})
+			.catch(function (error) {
+				console.log("Find One, catch", error);
 				reject(error)
 			})
-		}).catch(function (error) {
-			reject(error)
-		})
 	})
 }
 
@@ -178,6 +188,7 @@ Model.getUserOrders = function(userId) {
 	return new Promise(function (resolve, reject) {
 		User.findById(userId).populate({path:"orders", populate: {path: "items", populate: {path: "product"}}}).then(function (user) {
 			if (user != undefined) {
+				console.log("User orders", user.orders);
 				resolve(user.orders)
 			} else {
 				reject({"error": "User doesn't exist"})
@@ -202,12 +213,20 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 					"cardNumber":cardNumber,
 					"orderItems":shoppingCart.items
 				}).save().then(function (order) {
-					user.shoppingCart.clean()
-					user.shoppingCart.save().then(function () {
-						resolve(order)
-					}).catch(function (error) {
-						reject(error)
-					})
+					user.orders.push(order);
+					console.log("User orders after new order", user.orders);
+					user.save()
+						.then( function(user) {
+							user.shoppingCart.clean()
+							user.shoppingCart.save().then(function () {
+								resolve(order)
+							}).catch(function (error) {
+								reject(error)
+							})
+						})
+						.catch( function (error) {
+							reject(error);
+						})
 				}).catch(function (error) {
 					reject(error)
 				})

@@ -258,7 +258,7 @@ Model.addOrder = function(orderToAdd) {
 		$.ajax({
 			url: '/api/users/'+ Model.currentId +'/orders',
 			type: 'POST',
-			data: {'cardHolder': 'Card Holder Example', 'cardNumber': "Card Number Example"}
+			data: {'cardHolder': 'Card Holder Example', 'cardNumber': 1245845200}
 		})
 		.done( (data) => {
 			resolve(data);
