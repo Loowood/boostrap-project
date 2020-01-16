@@ -19,8 +19,9 @@ schema.methods.addItem = function(product) {
 	let shoppingCart = this
 	return new Promise((resolve, reject) => {
 		let found = false
+		console.log("Adding ...", product, shoppingCart);
 		shoppingCart.items.forEach(item => {
-			if (item.product == product) {
+			if (item.product["_id"] === product["_id"]) {
 				item.addOne().then(function (item) {
 					resolve(shoppingCart)
 				}).catch(function (error) {

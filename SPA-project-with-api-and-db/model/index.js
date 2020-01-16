@@ -1,8 +1,8 @@
 const User = require('./User')
 const ShoppingCart = require('./ShoppingCart')
 const Product = require('./Product')
-const Item = require('./Item')
 const Order = require('./Order')
+const Item = require('./Item')
 let Model = {}
 Model.getProducts = function() {
 	return Product.find()
@@ -186,7 +186,7 @@ Model.getUserShoppingCart = function(userId) {
 
 Model.getUserOrders = function(userId) {
 	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate({path:"orders", populate: {path: "items", populate: {path: "product"}}}).then(function (user) {
+		User.findById(userId).populate({path:"orders"}).then(function (user) {
 			if (user != undefined) {
 				console.log("User orders", user.orders);
 				resolve(user.orders)
@@ -203,7 +203,8 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 	return new Promise(function (resolve, reject) {
 		User.findById(userId).populate({path:"shoppingCart", populate: {path: "items"}}).populate({path:"orders"}).then(function (user) {
 			if (user != undefined) {
-				let shoppingCart = user.shoppingCart
+				let shoppingCart = user.shoppingCart;
+				console.log("Shopping Cart in new Order", shoppingCart);
 				new Order({
 					"address":user.address,
 					"subTotal":shoppingCart.subTotal,
@@ -211,7 +212,7 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 					"total":shoppingCart.total,
 					"cardHolder":cardHolder,
 					"cardNumber":cardNumber,
-					"orderItems":shoppingCart.items
+					"items":shoppingCart.items
 				}).save().then(function (order) {
 					user.orders.push(order);
 					console.log("User orders after new order", user.orders);
@@ -241,16 +242,11 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 
 Model.getUserOrder = function(userId, orderId) {
 	return new Promise((resolve, reject) => {
-		User.findById(userId).populate({path:"orders", populate:{path:"items", populate: {path: "product"}}}).then(function (user) {
-			if (user != undefined) {
-				let order = user.orders.find(order => order["_id"] === orderId)
-				if (order != undefined) {
-					resolve(order)
-				} else {
-					reject({"error":"order doesn't exist"})
-				}
+		Order.findById(orderId).populate({path:"items", populate: {path: "product"}}).then(function (order) {
+			if (order != undefined) {
+				resolve(order)
 			} else {
-				reject({"error":"User doesn't exist"})
+				reject({"error":"order doesn't exist"})
 			}
 		}).catch(function (error) {
 			reject(error)
@@ -285,6 +281,7 @@ Model.getUserProfile = function(userId) {
 	return new Promise((resolve, reject) => {
 		User.findById(userId).populate({path:"orders", populate: {path:"items", populate: {path: "product"}}}).then(function (user) {
 			if (user != undefined) {
+				console.log("get user Profile, all good");
 				resolve(user)
 			} else {
 				reject({"error":"user doesn't exist"})

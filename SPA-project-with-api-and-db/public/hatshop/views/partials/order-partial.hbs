@@ -38,7 +38,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each order.orderItems}}
+								{{#each order.items}}
 								<tr>
 									
 									<td>{{this.qty}}</td>
@@ -53,7 +53,7 @@
 						<div class="form-group row ml-1">
 							<label class="col-form-label col-md-2" for="inputSubTotal">SubTotal</label>
 							<div class="col-md-10">
-								<input disabled id="inputSubTotal" class="form-control" value="{{order.subtotal}}">
+								<input disabled id="inputSubTotal" class="form-control" value="{{order.subTotal}}">
 							</div>
 						</div>
 						<div class="form-group row ml-1">

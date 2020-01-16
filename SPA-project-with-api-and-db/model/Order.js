@@ -9,7 +9,7 @@ var schema = Schema({
 	total: {type: Number, required: true},
 	cardHolder: {type: String, required: true},
 	cardNumber: {type: Number, required: true},
-	orderItems: [{type: Schema.Types.ObjectID, ref: Item}]
+	items: [{type: Schema.Types.ObjectID, ref: "item"}]
 })
 
 
