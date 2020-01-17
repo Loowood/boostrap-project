@@ -7,7 +7,7 @@ const User = require('../model/User');
 const model = require('../model');
 const jwtOptions = {
 	secretOrKey: jwtSecret,
-	jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('bearer')
+	jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer')
 }
 
 const jwt = async (payload, done) => {

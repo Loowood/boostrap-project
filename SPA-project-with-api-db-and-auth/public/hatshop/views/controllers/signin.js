@@ -15,6 +15,8 @@ Controller.controllers.signin.signIn = function (event) {
 	Model.signInUser(email, password)
 		.then( function (data) {
 			Model.currentId = data.id;
+			console.log("Token", data.token);
+			document.cookie = "token="+data.token;
 			Controller.router.go("index");
 			View.renderer.index.render({});
 			console.log(Model.id);

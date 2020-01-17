@@ -1,4 +1,14 @@
 var Model = {};
+
+Model.getToken = function () {
+	const regex = RegExp('token=(.*)');
+	if (regex.test(document.cookie)) {
+		return regex.exec(document.cookie)[1];
+	} else {
+		return null;
+	}
+}
+
 class User {
 	constructor (id, name, surname, email, birth, address, password) {
 		this.name = name;
@@ -25,7 +35,8 @@ Model.getShoppingCart = function(uid) {
 	return new Promise(function (resolve, reject) {
 		$.ajax({
 			url: "/api/users/"+uid+"/cart",
-			method: "GET"
+			method: "GET",
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -163,7 +174,8 @@ Model.getProducts = function(){
 	return new Promise(function (resolve, reject) {
 		$.ajax({
 			url: "/api/products",
-			method: "GET"
+			method: "GET",
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -179,7 +191,8 @@ Model.getProduct = function(id) {
 	return new Promise(function (resolve, reject) {
 		$.ajax({
 			url: "/api/product/"+id,
-			method: "GET"
+			method: "GET",
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -210,7 +223,8 @@ Model.addProductToShoppingCart = function(uid, product) {
 		$.ajax({
 			url: '/api/users/'+uid+'/cart/items/'+product["_id"],
 			method: 'POST',
-			contents: product
+			contents: product,
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -226,7 +240,8 @@ Model.signInUser = function (usrEmail, usrPassword) {
 		$.ajax({
 			url: '/api/users/signin',
 			type: 'POST',
-			data: {'email': usrEmail, 'password': usrPassword}
+			data: {'email': usrEmail, 'password': usrPassword},
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			console.log(data);
@@ -239,10 +254,12 @@ Model.signInUser = function (usrEmail, usrPassword) {
 }
 
 Model.getUserProfile = function () {
+	console.log("Token regexed", Model.getToken());
 	return new Promise ( function (resolve, reject) {
 		$.ajax({
 			url: '/api/users/'+Model.currentId,
-			type: 'GET'
+			type: 'GET',
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -258,7 +275,8 @@ Model.addOrder = function(orderToAdd) {
 		$.ajax({
 			url: '/api/users/'+ Model.currentId +'/orders',
 			type: 'POST',
-			data: {'cardHolder': 'Card Holder Example', 'cardNumber': 1245845200}
+			data: {'cardHolder': 'Card Holder Example', 'cardNumber': 1245845200},
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -273,7 +291,8 @@ Model.getUserOrders = function() {
 	return new Promise( function (resolve, reject) {
 		$.ajax({
 			url: '/api/users/'+ Model.currentId +'/orders',
-			type: 'GET'
+			type: 'GET',
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			console.log("success getting user orders", data);
@@ -290,7 +309,8 @@ Model.getUserOrder = function (number) {
 	return new Promise( function (resolve, reject) {
 		$.ajax({
 			url: '/api/users/'+ Model.currentId + '/orders/' + number,
-			type: 'GET'
+			type: 'GET',
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 		.done( (data) => {
 			resolve(data);
@@ -305,7 +325,8 @@ Model.getUserOrderItems = function(number) {
 	return new Promise( function (resolve, reject) {
 		$.ajax({
 			url: '/api/users/'+ Model.currentId + '/orders/' + number + '/items',
-			type: 'GET'
+			type: 'GET',
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 			.done( (data) => {
 				resolve(data);
@@ -321,7 +342,8 @@ Model.signUp = function (username, surname, email, birthdate, address, password)
 		$.ajax({
 			url: '/api/users/signup',
 			type: 'POST',
-			data: {'name':username,'surname':surname,'email':email,'birth':birthdate,'address':address,'password':password}
+			data: {'name':username,'surname':surname,'email':email,'birth':birthdate,'address':address,'password':password},
+			headers: {"Authorization": 'Bearer ' + Model.getToken()}
 		})
 			.done((data) => {
 				resolve(data);
