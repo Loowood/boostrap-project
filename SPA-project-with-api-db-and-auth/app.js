@@ -7,7 +7,7 @@ const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api')
 const viewRouter = require('./routes/view');
 const app = express();
-
+const passport = require('passport');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
