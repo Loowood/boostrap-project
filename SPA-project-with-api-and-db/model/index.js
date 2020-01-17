@@ -242,7 +242,7 @@ Model.newOrder = function(userId, cardHolder, cardNumber) {
 
 Model.getUserOrder = function(userId, orderId) {
 	return new Promise((resolve, reject) => {
-		Order.findById(orderId).populate({path:"items", populate: {path: "product"}}).then(function (order) {
+		Order.findById(orderId).then(function (order) {
 			if (order != undefined) {
 				resolve(order)
 			} else {
@@ -255,21 +255,12 @@ Model.getUserOrder = function(userId, orderId) {
 }
 
 Model.getUserOrderItems = function(userId, orderId) {
-	return new Promise(function (resolve, reject) {
-		User.findById(userId).populate({path: "Order", populate: {path: "items", populate: {path:"product"}}}).then(function (user) {
-			if (user != undefined) {
-				let order = user.orders.find(order => order["_id"] === orderId)
-				if (order != undefined) {
-					order.populate({path:"items"}).then(function (order) {
-						resolve(order.items)
-					}).catch(function (error) {
-						reject(error)
-					})
-				} else {
-					reject({"error":"order doen't exist"})
-				}
+	return new Promise((resolve, reject) => {
+		Order.findById(orderId).populate({path:"items", populate: {path: "product"}}).then(function (order) {
+			if (order != undefined) {
+				resolve(order.items);
 			} else {
-				reject({"error":"User doesn't exist"})
+				reject({"error":"order doesn't exist"})
 			}
 		}).catch(function (error) {
 			reject(error)

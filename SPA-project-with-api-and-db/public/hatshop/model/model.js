@@ -301,6 +301,21 @@ Model.getUserOrder = function (number) {
 	})
 }
 
+Model.getUserOrderItems = function(number) {
+	return new Promise( function (resolve, reject) {
+		$.ajax({
+			url: '/api/users/'+ Model.currentId + '/orders/' + number + '/items',
+			type: 'GET'
+		})
+			.done( (data) => {
+				resolve(data);
+			})
+			.fail( (data) => {
+				reject(data);
+			})
+	})
+}
+
 Model.signUp = function (username, surname, email, birthdate, address, password){
 	return new Promise(function (resolve, reject) {
 		$.ajax({
