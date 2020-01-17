@@ -19,9 +19,9 @@ schema.methods.addItem = function(product) {
 	let shoppingCart = this
 	return new Promise((resolve, reject) => {
 		let found = false
-		console.log("Adding ...", product, shoppingCart);
+		console.log("Adding ...", product, shoppingCart.items.map(item => item.product));
 		shoppingCart.items.forEach(item => {
-			if (item.product["_id"] === product["_id"]) {
+			if ( item.product.toString() === product["_id"].toString() ) {
 				item.addOne().then(function (item) {
 					resolve(shoppingCart)
 				}).catch(function (error) {
@@ -36,7 +36,8 @@ schema.methods.addItem = function(product) {
 				"price":product.price,
 				"product":product
 			}).save().then(function (item) {
-				shoppingCart.items.push(item)
+				console.log("Product created :", item.product);
+				shoppingCart.items.push(item);
 				resolve(shoppingCart)
 			}).catch(function (error) {
 				reject(error)
