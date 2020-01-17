@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
 passport.use('jwt', strategies.jwt);
+passport.use('local', strategies.local);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/hatshop/views', viewRouter);
