@@ -1,4 +1,6 @@
 const Model = require('../../model')
+const jwt = require('jwt-simple')
+const {secret} = require('../../config/passport')
 var users = {}
 users.getUserShoppingCart = function(req, res) {
 	Model.getUserShoppingCart(
@@ -55,9 +57,12 @@ users.decreaseQtyProductToShoppingCart = function(req, res){
 }
 
 users.signInUser = function(req, res) {
-	console.log(req)
-	console.log(res)
-	res.json(req.user);
+	const payload = {sub:req.user}
+	const token = jwt.encode(payload, secret)
+	res.json({
+		id:req.user,
+		token:token
+	})
 }
 
 users.signUpUser = function(req, res) {

@@ -26,7 +26,7 @@ const local = async (userEmail, password, done) => {
 		if (user) {
 			const validPassword = await user.validPassword(password)
 			if (validPassword) {
-				return done(null, user)
+				return done(null, user["_id"])
 			}
 		}
 		return done(null, false)
@@ -41,3 +41,4 @@ const fields = {
 }
 exports.jwt = new jwtStrategy(jwtOptions, jwt);
 exports.local = new localStrategy(fields, local);
+exports.secret = jwtSecret

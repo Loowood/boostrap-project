@@ -136,36 +136,7 @@ Model.decreaseQtyProductToShoppingCart = function(userId, productId) {
 	})
 }
 
-Model.signInUser = function (userEmail, userPassword) {
-	console.log("Sign In", userEmail, userPassword);
-	return new Promise((resolve, reject) => {
-		User.findOne({"email": userEmail}).populate({path:"orders"})
-			.then((user) => {
-				console.log("Find One, then", user);
-				if (user == undefined) {
-					console.log("User is undefined");
-					reject({"error": "The username or password is incorrect"})
-				}
-				user.validPassword(userPassword)
-					.then(function (result) {
-						console.log("Valid Password, then", result);
-						if (result == true) {
-							resolve({"id":user["_id"]})
-						} else {
-							reject({"error":"The username or password is incorrect"})
-						}
-					})
-					.catch(function (error) {
-						console.log("Valid Password, catch", error);
-						reject(error)
-					})
-			})
-			.catch(function (error) {
-				console.log("Find One, catch", error);
-				reject(error)
-			})
-	})
-}
+
 
 
 
