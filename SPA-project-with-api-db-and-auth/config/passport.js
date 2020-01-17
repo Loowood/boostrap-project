@@ -4,7 +4,7 @@ const localStrategy = require('passport-local').Strategy;
 const {ExtractJwt} = require('passport-jwt');
 const jwtSecret = 'diuf_ueçeiçr_yéèèékkijihhuuhyuygyytyuiuiuiuiu';
 const User = require('../model/User');
-
+const model = require('../model');
 const jwtOptions = {
 	secretOrKey: jwtSecret,
 	jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('bearer')
@@ -22,13 +22,19 @@ const jwt = async (payload, done) => {
 
 const local = async (userEmail, password, done) => {
 	try {
-		const user = await model.signInUser(userEmail, password)
-		if (user) return done(null, user)
+		const user = await User.findOne({"email": userEmail})
+		if (user) {
+			const validPassword = await user.validPassword(password)
+			if (validPassword) {
+				return done(null, user)
+			}
+		}
 		return done(null, false)
 	} catch (error) {
 		return done(error)
 	}
 }
+
 const fields = {
 	usernameField: 'email',
 	passwordField: 'password'

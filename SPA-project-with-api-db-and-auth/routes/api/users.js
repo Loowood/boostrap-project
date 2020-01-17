@@ -55,13 +55,9 @@ users.decreaseQtyProductToShoppingCart = function(req, res){
 }
 
 users.signInUser = function(req, res) {
-	console.log(req.body)
-	Model.signInUser(req.body.email, req.body.password).then(user => {
-		res.json(user)
-	}).catch(error => {
-		console.error(error)
-		res.status(500).json(error)
-	})
+	console.log(req)
+	console.log(res)
+	res.json(req.user);
 }
 
 users.signUpUser = function(req, res) {
